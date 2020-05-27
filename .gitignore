@@ -85,6 +85,7 @@ obj/
 .idea/dynamic.xml
 .idea/uiDesigner.xml
 .idea/assetWizardSettings.xml
+.idea/navEditor.xml
 
 # OS-specific files
 .DS_Store
@@ -131,5 +132,7 @@ fabric.properties
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
+
+.cxx
 
 # End of https://www.gitignore.io/api/androidstudio
