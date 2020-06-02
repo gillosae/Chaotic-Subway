@@ -14,9 +14,9 @@ Subway application suggesting paths considering the congestion of cabins
 
 
 ## Data
-- [ ] Crawl station data
-- [ ] Crawl timetable data
-- [ ] Crawl yearly congestion data
+- [x] Crawl station data
+- [x] Crawl timetable data
+- [x] Crawl yearly congestion data
 - [ ] Parse all data
 - [ ] Congestion Prediction
 
