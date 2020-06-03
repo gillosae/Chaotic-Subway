@@ -1,5 +1,5 @@
 package com.example.chaoticsubway.parse;
-//Ïó∞ÎèÑÎ≥Ñ
+//ø¨µµ∫∞
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -10,27 +10,105 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class ParseYearData {
     static BufferedWriter bs = null;
     static int len;
 
-    public static String[] compare(String a, String b, String[] station, String[] field) {
+    public static String[] compare( String b, String[] station, String[] field) {
+        if(field[0].equals("∆Ú¿œ")){
+            station[0] = "01";
+        }else if(field[0].equals("≈‰ø‰¿œ")){
+            station[0] = "02";
+        }else if(field[0].equals("¿œø‰¿œ")){
+            station[0] = "03";
+        }
         station[1] = b;
-        if(field[2].equals("ÏÉÅÏÑ†") || field[2].equals("ÎÇ¥ÏÑ†")) {
+        if(field[2].equals("ªÛº±") || field[2].equals("≥ªº±")) {
             station[4] = "U";
         }else {
             station[4] = "D";
         }
-        //ÎÇòÎ®∏ÏßÄ Ï†ÄÏû•
-        station[3] = field[1];
-        //station[2] = field[3];
-        for(int i=3;i<field.length;i++) {
-            station[i+2] = field[i];
+        //≥™∏”¡ˆ ¿˙¿Â
+        station[3] = field[3];
+        station[2] = field[4];
+        //System.out.println(field.length);
+        for(int i=5;i<len;i++) {
+            station[i] = field[i];
         }
         return station;
     }
 
+    private static void checkType(String a) throws UnsupportedEncodingException {
+        /*
+        System.out.println("utf-8 -> euc-kr        : " + new String(word.getBytes("utf-8"), "euc-kr"));
+
+        System.out.println("utf-8 -> ksc5601       : " + new String(word.getBytes("utf-8"), "ksc5601"));
+
+        System.out.println("utf-8 -> x-windows-949 : " + new String(word.getBytes("utf-8"), "x-windows-949"));
+
+        System.out.println("utf-8 -> iso-8859-1    : " + new String(word.getBytes("utf-8"), "iso-8859-1"));
+
+        System.out.println("iso-8859-1 -> euc-kr        : " + new String(word.getBytes("iso-8859-1"), "euc-kr"));
+
+        System.out.println("iso-8859-1 -> ksc5601       : " + new String(word.getBytes("iso-8859-1"), "ksc5601"));
+
+        System.out.println("iso-8859-1 -> x-windows-949 : " + new String(word.getBytes("iso-8859-1"), "x-windows-949"));
+
+        System.out.println("iso-8859-1 -> utf-8         : " + new String(word.getBytes("iso-8859-1"), "utf-8"));
+
+        System.out.println("euc-kr -> utf-8         : " + new String(word.getBytes("euc-kr"), "utf-8"));
+
+        System.out.println("euc-kr -> ksc5601       : " + new String(word.getBytes("euc-kr"), "ksc5601"));
+
+        System.out.println("euc-kr -> x-windows-949 : " + new String(word.getBytes("euc-kr"), "x-windows-949"));
+
+        System.out.println("euc-kr -> iso-8859-1    : " + new String(word.getBytes("euc-kr"), "iso-8859-1"));
+
+        System.out.println("ksc5601 -> euc-kr        : " + new String(word.getBytes("ksc5601"), "euc-kr"));
+
+        System.out.println("ksc5601 -> utf-8         : " + new String(word.getBytes("ksc5601"), "utf-8"));
+
+        System.out.println("ksc5601 -> x-windows-949 : " + new String(word.getBytes("ksc5601"), "x-windows-949"));
+
+        System.out.println("ksc5601 -> iso-8859-1    : " + new String(word.getBytes("ksc5601"), "iso-8859-1"));
+
+        System.out.println("x-windows-949 -> euc-kr     : " + new String(word.getBytes("x-windows-949"), "euc-kr"));
+
+        System.out.println("x-windows-949 -> utf-8      : " + new String(word.getBytes("x-windows-949"), "utf-8"));
+
+        System.out.println("x-windows-949 -> ksc5601    : " + new String(word.getBytes("x-windows-949"), "ksc5601"));
+
+        System.out.println("x-windows-949 -> iso-8859-1 : " + new String(word.getBytes("x-windows-949"), "iso-8859-1"));
+
+*/
+
+
+
+        String charSet[] = { "UTF-8", "euc-kr", "ksc5601", "iso-8859-1", "ascii", "x-windows-949" };
+
+        String name = a;
+
+        for (int i = 0; i < charSet.length; i++) {
+
+            for (int j = 0; j < charSet.length; j++) {
+
+                if (i == j){
+
+                    continue;
+
+                }
+
+                System.out.println(charSet[i] + " : " + charSet[j] + " :" + new String(name.getBytes(charSet[i]), charSet[j]));
+
+            }
+
+        }
+
+
+    }
     public static void readCSV(String filepath){
         BufferedReader fr = null;
         String line;
@@ -41,23 +119,28 @@ public class ParseYearData {
             fr = new BufferedReader(new InputStreamReader(new FileInputStream(filepath), "UTF-8" ));
 
             while((line = fr.readLine())!=null){
-                System.out.println(line);
                 String[] field = line.split(splitBy);
-                //System.out.println(field[1]);
-                line_num = field[0];
-                //2,4,7,9Ìò∏ÏÑ† Ï∂îÏ∂ú
-                if(line_num.equals("2Ìò∏ÏÑ†")) {
-                    station = compare(line_num, "2Ìò∏ÏÑ†", station, field);
-                }else if(line_num.equals("4Ìò∏ÏÑ†")) {
-                    station = compare(line_num, "4Ìò∏ÏÑ†", station, field);
-                }else if(line_num.equals("7Ìò∏ÏÑ†")) {
-                    station = compare(line_num, "7Ìò∏ÏÑ†", station, field);
-                }else if(line_num.equals("9Ìò∏ÏÑ†")){
-                    station = compare(line_num, "9Ìò∏ÏÑ†", station, field);
-                }else {
+                if(field.length ==0){
                     continue;
+                }else{
+
+                    line_num = field[1];
+
+                    if(line_num.equals("2»£º±")) {
+                        //System.out.println("ok");
+                        station = compare("2»£º±", station, field);
+                    }else if(line_num.equals("4»£º±")) {
+                        station = compare( "4»£º±", station, field);
+                    }else if(line_num.equals("7»£º±")) {
+                        station = compare( "7»£º±", station, field);
+                    }else if(line_num.equals("9»£º±")){
+                        station = compare( "9»£º±", station, field);
+                    }else {
+                        continue;
+                    }
+                    writeCSV(station);
                 }
-                writeCSV(station);
+
             }
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -67,8 +150,8 @@ public class ParseYearData {
     }
 
     public static BufferedWriter createCSV(String filepath) throws IOException {
-        bs = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("ÌååÏùºÎ™Ö"), "utf-8"));
-        String[] entries = "ÏöîÏùºÏΩîÎìú,Ìò∏ÏÑ†,Ïó≠Î≤àÌò∏,Ïó≠Î™Ö,Íµ¨Î∂Ñ,05:00 ~,06:00 ~,07:00 ~,08:00 ~,09:00 ~,10:00 ~,11:00 ~,12:00 ~,13:00 ~,14:00 ~,15:00 ~,16:00 ~,17:00 ~,18:00 ~,19:00 ~,20:00 ~,21:00 ~,22:00 ~,23:00 ~, 24:00~".split(",");
+        bs = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filepath), StandardCharsets.UTF_8));
+        String[] entries = "ø‰¿œƒ⁄µÂ,»£º±,ø™π¯»£,ø™∏Ì,±∏∫–,05:00 ~,06:00 ~,07:00 ~,08:00 ~,09:00 ~,10:00 ~,11:00 ~,12:00 ~,13:00 ~,14:00 ~,15:00 ~,16:00 ~,17:00 ~,18:00 ~,19:00 ~,20:00 ~,21:00 ~,22:00 ~,23:00 ~, 24:00~".split(",");
         len = entries.length;
         for(String e :entries) {
             bs.append(e);
@@ -83,6 +166,7 @@ public class ParseYearData {
             bs.append(element);
             bs.append(",");
         }
+        bs.flush();
     }
     public static void close() throws IOException {
         bs.flush();
@@ -90,10 +174,10 @@ public class ParseYearData {
     }
     public static void main(String[] args) throws IOException {
         String i = "a";
-        //Ïñò Î≥ÄÍ≤ΩÌï¥ÏÑú ÏÇ¨Ïö©
-        String filename = "2013_csv.csv";
-        bs = createCSV("../../assets/congestion/"+i+".csv");
-        readCSV("../../assets/congestion/"+filename);
+        //æÍ ∫Ø∞Ê«ÿº≠ ªÁøÎ
+        String filename = "2015_1.csv";
+        bs = createCSV("../../../../../assets/parsed_congestion/"+filename);
+        readCSV("../../../../../assets/congestion/"+filename);
         close();
     }
 }

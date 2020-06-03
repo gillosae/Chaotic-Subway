@@ -6,7 +6,7 @@ import java.util.Calendar;
 public class GetTime {
     static int day_num;
     static String time;
-    public static void getDay() {
+    public static String getDay() {
         Calendar cal = Calendar.getInstance();
 
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
@@ -22,6 +22,7 @@ public class GetTime {
                 day_num = 01;
         }
         System.out.println(day_num);
+        return Integer.toString(day_num);
     }
     public static String dateTime() {
         Calendar cur_time = Calendar.getInstance();
