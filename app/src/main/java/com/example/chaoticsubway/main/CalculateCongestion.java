@@ -1,7 +1,5 @@
 package com.example.chaoticsubway.main;
 
-
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -71,7 +69,7 @@ public class CalculateCongestion {
         //시간대 가져오기
         //이후 get time 클래스와 연동하여 실시간 시간 불러온 후 <시> 부분만 추출하여 비교
         //GetTime time = new GetTime();
-        cur_time ="22";//time.dateTime();
+        cur_time ="08";//time.dateTime();
         //System.out.println(cur_time);
 
         //cur_time = cur_time.substring(8, 10);
@@ -80,9 +78,9 @@ public class CalculateCongestion {
         day="01" ;//time.getDay();
         //System.out.println(Arrays.toString(day.getBytes(StandardCharsets.UTF_8)));
         //역 코드 가져오기(지금은 임의 설정. 차후에 검색 시 해당 검색어로 역 코드 불러오는 station code와 연동하여 가져오기)
-        code = "224";
+        code = "226";
         //상하행 열차 선택 (현재 임의 설정 위와 동일)
-        up_down = "U";
+        up_down = "D";
     }
 
 

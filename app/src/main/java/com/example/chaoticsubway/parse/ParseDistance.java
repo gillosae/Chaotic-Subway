@@ -1,7 +1,7 @@
 package com.example.chaoticsubway.parse;
 
 
-//역 거리
+//역 거리 https://data.seoul.go.kr/dataList/OA-12034/S/1/datasetView.do
 //7，9호선 아직 완성 못함. 이후에 다른 api를 통해 추가 필요
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
