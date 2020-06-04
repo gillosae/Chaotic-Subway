@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TableRow
+        android:layout_width="242dp"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+
+            android:layout_width="87dp"
+            android:text="검색창"
+            android:textSize="25sp" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:text="호선"
+            android:textSize="25sp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/prev_stn"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="신도림"
+            android:textColor="#000000"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/now_stn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="신대방"
+            android:textColor="#DD0000"
+            android:textSize="52sp" />
+
+
+        <TextView
+            android:id="@+id/next_stn"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="신림"
+            android:textColor="#000000"
+            android:textSize="34sp" />
+
+    </TableRow>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/hang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="부평구청"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="행"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="6"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="분 후 "/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:id="@+id/dochak"
+            android:text="대림역"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text=" 도착"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="#FF6600"
+            android:text="실시간 열차 혼잡도"/>
+    </LinearLayout>
+    <TableLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        ><TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textColor="#111111"
+            android:textSize="20sp" />
+
+    </TableRow>
+
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/c1"
+                android:layout_width="74dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/green" />
+
+            <ImageView
+                android:id="@+id/c2"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/green" />
+
+            <ImageView
+                android:id="@+id/c3"
+                android:layout_width="69dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/green" />
+
+            <ImageView
+                android:id="@+id/c4"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/green" />
+
+            <ImageView
+                android:id="@+id/c5"
+                android:layout_width="85dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/green" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6"
+                android:textColor="#111111"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7"
+                android:textColor="#111111"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8"
+                android:textColor="#111111"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9"
+                android:textColor="#111111"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textColor="#111111"
+                android:textSize="20sp" />
+        </TableRow>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/c6"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/green" />
+
+            <ImageView
+                android:id="@+id/c7"
+                android:layout_width="73dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/green" />
+
+            <ImageView
+                android:id="@+id/c8"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/green"/>
+
+            <ImageView
+                android:id="@+id/c9"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/green"/>
+            <ImageView
+                android:id="@+id/c10"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/green" />
+
+        </TableRow>
+
+    </TableLayout>
+
+
+</LinearLayout>
