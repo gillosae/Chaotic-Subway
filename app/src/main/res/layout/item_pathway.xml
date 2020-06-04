@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/departure"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="15dp">
+        <TextView
+            android:id="@+id/depTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="15sp"
+            android:layout_gravity="center"/>
+        <ImageView
+            android:id="@+id/depLineCircle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/line2"
+            android:layout_gravity="center"
+            android:padding="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="출발역 : "
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/depStationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상도"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/showdetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="0개역 (00분)"
+        android:textSize="15sp"/>
+
+    <LinearLayout
+        android:id="@+id/detail"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/arrival"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="15dp">
+        <TextView
+            android:id="@+id/arrTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="15sp"
+            android:layout_gravity="center"/>
+        <ImageView
+            android:id="@+id/arrLineCircle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/line2"
+            android:layout_gravity="center"
+            android:padding="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="도착역 : "
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/arrStationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상도"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/transfer"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="도보환승 (3분)"
+        android:textSize="15sp"
+        android:visibility="visible"/>
+
+</LinearLayout>

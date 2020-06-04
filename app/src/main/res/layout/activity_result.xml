@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_result"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.chaoticsubway.ResultActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow">
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="혼잡도 "
+            android:textAppearance="?android:textAppearanceSmallPopupMenu"/>
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:inputType="text"
+            android:layoutDirection="rtl"
+            app:defaultQueryHint="역을 입력하세요" />
+    </androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/summary"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="36분"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:padding="10sp"/>
+        <TextView
+            android:id="@+id/transfer_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="환승 1회"
+            android:textSize="15sp"
+            android:padding="10sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카드 1350원"
+            android:textSize="15sp"
+            android:padding="10sp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="열차정보"
+            android:textSize="15sp"
+            android:padding="10sp"/>
+
+    </LinearLayout>
+    
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_pathway"/>
+</LinearLayout>
