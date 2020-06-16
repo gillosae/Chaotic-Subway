@@ -3,12 +3,21 @@ package com.example.chaoticsubway;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -53,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         //FullScrollView
         FullScrollView scrollView = (FullScrollView)findViewById(R.id.scrollView);
+        scrollView.scrollTo(1000, 0);
 //        scrollView.requestDisallowInterceptTouchEvent(true);
 
         //SVGImageView
@@ -60,11 +70,22 @@ public class MainActivity extends AppCompatActivity {
         svgImageView.setImageAsset("subway_map_small.svg");
         svgImageView.setMinimumWidth(10000);
         svgImageView.setMinimumHeight(10000);
+//        svgImageView.setCSS("g text:hover{color:red}");
+
+
+        //Search View(For intent)
+        androidx.appcompat.widget.SearchView searchView = (androidx.appcompat.widget.SearchView)findViewById(R.id.search_view);
+        searchView.setOnSearchClickListener(new SearchView.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent resultIntent = new Intent(v.getContext(), ResultActivity.class);
+                startActivity(resultIntent);
+            }
+        });
 
 //        ParseStation();
 //        GetNodeStations();
 //        RouteSearch(6, 16);
-
     }
 
 //    private void ParseStation(){

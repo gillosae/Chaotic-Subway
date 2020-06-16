@@ -16,6 +16,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow">
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/congestionSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="혼잡도 "
@@ -27,7 +28,31 @@
             android:inputType="text"
             android:layoutDirection="rtl"
             app:defaultQueryHint="역을 입력하세요" />
+
     </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/offerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#999"
+        android:layout_gravity="center"
+        android:paddingHorizontal="20dp"
+        android:visibility="gone"
+        android:animateLayoutChanges="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="추천경로"
+            android:textSize="20sp" />
+        <include
+            layout="@layout/offer"/>
+
+
+    </LinearLayout>
+
+
     <LinearLayout
         android:id="@+id/summary"
         android:orientation="horizontal"
@@ -55,12 +80,12 @@
             android:textSize="15sp"
             android:padding="10sp"/>
         <Button
+            android:id="@+id/chooseRoute"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="열차정보"
+            android:text="이걸로 가즈아"
             android:textSize="15sp"
             android:padding="10sp"/>
-
     </LinearLayout>
     
     <ListView
@@ -68,4 +93,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_pathway"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"/>
+
 </LinearLayout>

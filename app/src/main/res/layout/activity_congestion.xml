@@ -74,6 +74,7 @@
                 android:textSize="30sp"/>
         </LinearLayout>
         <TextView
+            android:id="@+id/tilArrival"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -87,6 +88,7 @@
         android:layout_height="wrap_content"
         android:padding="20dp">
         <TextView
+            android:id="@+id/destination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="부평구청행(6890)"

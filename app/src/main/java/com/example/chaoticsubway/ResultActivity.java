@@ -1,20 +1,27 @@
 package com.example.chaoticsubway;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
+    static Boolean isTouched = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +39,6 @@ public class ResultActivity extends AppCompatActivity {
         //Link View and Adapter
         ListView listView = (ListView)findViewById(R.id.list_view);
         listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -40,6 +46,48 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
+        //Choose current route Button
+        Button chooseRouteButton = (Button)findViewById(R.id.chooseRoute);
+        //If not real-time search, set visibility to gone
+        chooseRouteButton.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent congestionIntent = new Intent(view.getContext(), CongestionActivity.class);
+//                congestionIntent.putExtra()
+                startActivity(congestionIntent);
+            }
+        });
+
+        //Offer container
+        final LinearLayout offerContainer = (LinearLayout)findViewById(R.id.offerContainer);
+
+        //Congestion Search Switch
+        SwitchCompat switchButton = (SwitchCompat)findViewById(R.id.congestionSwitch);
+        switchButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                isTouched = true;
+                return false;
+            }
+        });
+        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if (isTouched) {
+                    isTouched = false;
+                    if (isChecked) {
+                        Toast.makeText(ResultActivity.this, "혼잡도 고려", Toast.LENGTH_SHORT).show();
+                        offerContainer.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        Toast.makeText(ResultActivity.this, "혼잡도 고려 취소", Toast.LENGTH_SHORT).show();
+                        offerContainer.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
 
     }
 }

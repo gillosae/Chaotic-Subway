@@ -14,6 +14,5 @@ public class CongestionActivity extends AppCompatActivity {
         TextView depStation = (TextView)findViewById(R.id.depStation);
         TextView curStation = (TextView)findViewById(R.id.curStation);
         TextView arrStation = (TextView)findViewById(R.id.arrStation);
-
     }
 }

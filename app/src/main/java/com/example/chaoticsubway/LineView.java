@@ -51,4 +51,6 @@ public class LineView extends View {
         getParent().requestDisallowInterceptTouchEvent(true);
         return super.onTouchEvent(event);
     }
+
+
 }

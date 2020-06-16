@@ -2,6 +2,11 @@
 <!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="레이어_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
 	 y="0px" viewBox="0 0 5842.5 5710" style="enable-background:new 0 0 5842.5 5710;" xml:space="preserve">
+<script type="application/ecmascript"> <![CDATA[
+	function section_click(evt) {
+		Android.showToast("Hello from SVG");
+	}]]>
+</script>
 <style type="text/css">
 	.st0{fill:#3681B7;}
 	.st1{fill:#FFFFFF;}
@@ -1582,9 +1587,7 @@
 		<line class="st85" x1="218.3" y1="291.8" x2="328.2" y2="291.8"/>
 		<line class="st49" x1="273.4" y1="271.6" x2="273.4" y2="291.8"/>
 	</g>
-	<g>
-		<text transform="matrix(1 0 0 1 108.1182 181.9482)" class="st86 st87">200407 Not to scale</text>
-	</g>
+
 </g>
 <g id="texts_사본" class="st37">
 	<g id="ko_사본">
@@ -2345,10 +2348,10 @@
 				<text transform="matrix(0.7071 -0.7071 0.7071 0.7071 2983.5598 2934.9451)" class="st88 st86 st91">서울대입구</text>
 			</g>
 			<g>
-				<text transform="matrix(0.7071 -0.7071 0.7071 0.7071 2901.4795 2726.6682)" class="st88 st86 st91">장승배기</text>
+				<text onclick="section_click(this)" transform="matrix(0.7071 -0.7071 0.7071 0.7071 2901.4795 2726.6682)" class="st88 st86 st91">장승배기</text>
 			</g>
 			<g>
-				<text transform="matrix(0.7071 -0.7071 0.7071 0.7071 2856.0776 2650.7917)" class="st88 st86 st91">신대방삼거리</text>
+				<text onclick="section_click(this)" transform="matrix(0.7071 -0.7071 0.7071 0.7071 2856.0776 2650.7917)" class="st88 st86 st91">신대방삼거리</text>
 			</g>
 			<g>
 				<text transform="matrix(0.7071 -0.7071 0.7071 0.7071 2792.6284 2649.303)" class="st88 st86 st91">보라매</text>
