@@ -32,7 +32,7 @@ public class Congestion {
             String[] header = line.split(",");
             //System.out.println(header[1]);
             if(n >1){
-                if(header.length ==1) {//ÇÑÄ­ °Ç³Ê¶Ù´Â µî 25ÀÇ ÀÎÀÚ ¸ğµÎ °¡Áö°í ÀÖÁö ¾ÊÀº °æ¿ì
+                if(header.length ==1) {//í•œì¹¸ ê±´ë„ˆë›°ëŠ” ë“± 25ì˜ ì¸ì ëª¨ë‘ ê°€ì§€ê³  ìˆì§€ ì•Šì€ ê²½ìš°
                     continue;
                 }else {
                     for(int i=0;i<5;i++) {
@@ -60,7 +60,7 @@ public class Congestion {
     }
 
     public static void main(String[] args) throws IOException {
-        //¹Ş¾Æ¿Ã ÆÄÀÏ°ú ´Ù½Ã ÀúÀåÇÒ ÆÄÀÏ ÁöÁ¤, utf-8·Î ÀÎÄÚµù ¿¡·¯ ¹æÁö
+        //ë°›ì•„ì˜¬ íŒŒì¼ê³¼ ë‹¤ì‹œ ì €ì¥í•  íŒŒì¼ ì§€ì •, utf-8ë¡œ ì¸ì½”ë”© ì—ëŸ¬ ë°©ì§€
         data = new BufferedReader(new InputStreamReader(new FileInputStream("../../../../../assets/parsed_congestion/2015_1.csv"), "utf-8"));
         number = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../../../../../assets/parsed_congestion/num_of_people.csv"),"utf-8"));
         getPeopleNum();

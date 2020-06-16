@@ -17,14 +17,14 @@ public class CalculateCongestion {
 
     private static void print(String con) throws UnsupportedEncodingException {
 
-        if(con.equals("¾Ğ»ç")){
-            System.out.println("¾Ğ»ç");
-        }else if(con.equals("È¥Àâ")){
-            System.out.println("È¥Àâ");
-        }else if(con.equals("º¸Åë")){
-            System.out.println("º¸Åë");
-        }else if(con.equals("³Î³Î")){
-            System.out.println("³Î³Î");
+        if(con.equals("ì••ì‚¬")){
+            System.out.println("ì••ì‚¬");
+        }else if(con.equals("í˜¼ì¡")){
+            System.out.println("í˜¼ì¡");
+        }else if(con.equals("ë³´í†µ")){
+            System.out.println("ë³´í†µ");
+        }else if(con.equals("ë„ë„")){
+            System.out.println("ë„ë„");
         }
     }
     private static void getRate(int p_num) throws UnsupportedEncodingException {
@@ -33,13 +33,13 @@ public class CalculateCongestion {
         int cal = (mul*100)/10500;
 
         if(cal>=150){
-            print("¾Ğ»ç");
+            print("ì••ì‚¬");
         }else if(cal>=130 && cal<150){
-            print("È¥Àâ");
+            print("í˜¼ì¡");
         }else if(cal>=80&&cal<130){
-            print("º¸Åë");
+            print("ë³´í†µ");
         }else if(cal<80){
-            print("³Î³Î");
+            print("ë„ë„");
         }
     }
 /*
@@ -63,23 +63,23 @@ public class CalculateCongestion {
         }
         return people;
     }
-    //ÃßÈÄ ½Ç½Ã°£ °ª °¡Á®¿À´Â °ÍÀ¸·Î º¯°æ ÇÊ¿ä
+    //ì¶”í›„ ì‹¤ì‹œê°„ ê°’ ê°€ì ¸ì˜¤ëŠ” ê²ƒìœ¼ë¡œ ë³€ê²½ í•„ìš”
 
     private static void getParams() throws UnsupportedEncodingException {
-        //½Ã°£´ë °¡Á®¿À±â
-        //ÀÌÈÄ get time Å¬·¡½º¿Í ¿¬µ¿ÇÏ¿© ½Ç½Ã°£ ½Ã°£ ºÒ·¯¿Â ÈÄ <½Ã> ºÎºĞ¸¸ ÃßÃâÇÏ¿© ºñ±³
+        //ì‹œê°„ëŒ€ ê°€ì ¸ì˜¤ê¸°
+        //ì´í›„ get time í´ë˜ìŠ¤ì™€ ì—°ë™í•˜ì—¬ ì‹¤ì‹œê°„ ì‹œê°„ ë¶ˆëŸ¬ì˜¨ í›„ <ì‹œ> ë¶€ë¶„ë§Œ ì¶”ì¶œí•˜ì—¬ ë¹„êµ
         //GetTime time = new GetTime();
         cur_time ="08";//time.dateTime();
         //System.out.println(cur_time);
 
         //cur_time = cur_time.substring(8, 10);
         //System.out.println(cur_time);
-        //³¯Â¥ (ÆòÀÏ=01, Åä¿äÀÏ=02, ÀÏ¿äÀÏ=03 ) ÄÚµå °¡Á®¿À±â
+        //ë‚ ì§œ (í‰ì¼=01, í† ìš”ì¼=02, ì¼ìš”ì¼=03 ) ì½”ë“œ ê°€ì ¸ì˜¤ê¸°
         day="01" ;//time.getDay();
         //System.out.println(Arrays.toString(day.getBytes(StandardCharsets.UTF_8)));
-        //¿ª ÄÚµå °¡Á®¿À±â(Áö±İÀº ÀÓÀÇ ¼³Á¤. Â÷ÈÄ¿¡ °Ë»ö ½Ã ÇØ´ç °Ë»ö¾î·Î ¿ª ÄÚµå ºÒ·¯¿À´Â station code¿Í ¿¬µ¿ÇÏ¿© °¡Á®¿À±â)
+        //ì—­ ì½”ë“œ ê°€ì ¸ì˜¤ê¸°(ì§€ê¸ˆì€ ì„ì˜ ì„¤ì •. ì°¨í›„ì— ê²€ìƒ‰ ì‹œ í•´ë‹¹ ê²€ìƒ‰ì–´ë¡œ ì—­ ì½”ë“œ ë¶ˆëŸ¬ì˜¤ëŠ” station codeì™€ ì—°ë™í•˜ì—¬ ê°€ì ¸ì˜¤ê¸°)
         code = "226";
-        //»óÇÏÇà ¿­Â÷ ¼±ÅÃ (ÇöÀç ÀÓÀÇ ¼³Á¤ À§¿Í µ¿ÀÏ)
+        //ìƒí•˜í–‰ ì—´ì°¨ ì„ íƒ (í˜„ì¬ ì„ì˜ ì„¤ì • ìœ„ì™€ ë™ì¼)
         up_down = "D";
     }
 

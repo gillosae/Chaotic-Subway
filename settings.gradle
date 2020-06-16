@@ -1,2 +1,2 @@
 rootProject.name='Chaotic Subway'
-include ':app'
+include ':app', ':androidsvg-1.4'

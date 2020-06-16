@@ -23,7 +23,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 //key = 6e6943477a7373773737504670736d
-//ÀüÃ¼ È¯½Â ¿ª ¸ğµÎ Æ÷ÇÔ
+//ì „ì²´ í™˜ìŠ¹ ì—­ ëª¨ë‘ í¬í•¨
 
 
 public class Transfer {
@@ -41,7 +41,7 @@ public class Transfer {
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
         br = new BufferedReader(new InputStreamReader(new FileInputStream("../../../../../assets/stations/station.csv"), "utf-8"));
         bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../../../../../assets/stations/transfer.csv"), "utf-8"));
-        String[] header = "È£¼±, ¿ª ÄÚµå, ¿ªÀÌ¸§, ¹æ¸é,U/D,  È¯½Â È£¼±, È¯½Â ÈÄ ¹æ¸é, ºü¸¥ È¯½Â Ä­, ÃâÀÔ¹® À§Ä¡".split(",");
+        String[] header = "í˜¸ì„ , ì—­ ì½”ë“œ, ì—­ì´ë¦„, ë°©ë©´,U/D,  í™˜ìŠ¹ í˜¸ì„ , í™˜ìŠ¹ í›„ ë°©ë©´, ë¹ ë¥¸ í™˜ìŠ¹ ì¹¸, ì¶œì…ë¬¸ ìœ„ì¹˜".split(",");
         for(int i=0;i<header.length;i++){
             bw.append(header[i]);
             bw.append(",");
@@ -64,7 +64,7 @@ public class Transfer {
 
                         //
                         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(con.getInputStream());
-                        boolean ok = false; // <resultCode>00</resultCode> È¹µæ ¿©ºÎ
+                        boolean ok = false; // <resultCode>00</resultCode> íšë“ ì—¬ë¶€
 
                         Element e;
                         NodeList ns = doc.getElementsByTagName("row");
@@ -84,18 +84,18 @@ public class Transfer {
                                 e = (Element) ns.item(i);
                                 NodeList childList = e.getChildNodes();
                                 if (childList.getLength() > 0) {
-                                        System.out.println("¿ªÄÚµå:" + childList.item(3).getTextContent().substring(7, 10));
+                                        System.out.println("ì—­ì½”ë“œ:" + childList.item(3).getTextContent().substring(7, 10));
                                         row[1] = childList.item(3).getTextContent().substring(7, 10);
-                                        System.out.println("¿ªÀÌ¸§:" + childList.item(4).getTextContent());
+                                        System.out.println("ì—­ì´ë¦„:" + childList.item(4).getTextContent());
                                         row[2] = childList.item(4).getTextContent();
                                         row[0] = childList.item(6).getTextContent();
                                         row[3] = childList.item(8).getTextContent();
-                                        if (row[3].contains("³»¼±") || row[3].contains("»ó¼±")) {
+                                        if (row[3].contains("ë‚´ì„ ") || row[3].contains("ìƒì„ ")) {
                                             row[4] = "U";
                                         } else {
                                             row[4] = "D";
                                         }
-                                        row[5] = childList.item(9).getTextContent().substring(3)+"È£¼±";
+                                        row[5] = childList.item(9).getTextContent().substring(3)+"í˜¸ì„ ";
                                         row[6] = childList.item(10).getTextContent();
                                         row[7] = childList.item(11).getTextContent();
                                         row[8] = childList.item(12).getTextContent();
