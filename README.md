@@ -5,8 +5,9 @@ Subway application suggesting paths considering the congestion of cabins
 - [x] Overall Layouts
 - [x] Search Bar(Navigation)
 - [ ] Main View
-    - [ ] Adapter
-    - [ ] Align stations on view
+    - [x] Diagonal scroll
+    - [x] SVG Library
+    - [x] Station map
     - [ ] Popup(on station click)
 - [x] Result View
     - [x] Station 
