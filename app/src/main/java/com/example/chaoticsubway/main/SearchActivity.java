@@ -1,5 +1,8 @@
 package com.example.chaoticsubway.main;
 
+import android.os.Bundle;
+
+import android.widget.ArrayAdapter;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
@@ -9,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -265,6 +269,7 @@ public class SearchActivity extends AppCompatActivity {
     /////////////////////////////////////////
 
 
+   // private SearchView search;
     final int DIALOG_TIME =2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,13 +280,50 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.row_listview);
+        setContentView(R.layout.activity_search);
+   final AutoCompleteTextView dep = (AutoCompleteTextView) findViewById(R.id.start_station);
+        final AutoCompleteTextView des = (AutoCompleteTextView) findViewById(R.id.end_station);
 
-        SearchView dep = findViewById(R.id.dep_station);
-        SearchView des = findViewById(R.id.des_station);
+        // AutoCompleteTextView 에 아답터를 연결한다.
+        dep.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,  STATIONS ));
+        des.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,  STATIONS ));
 
-        Button b1 = (Button)findViewById(R.id.btn_time);
+        dep.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                station_name = ((TextView)view).getText().toString();
+                Toast.makeText(SearchActivity.this, station_name, Toast.LENGTH_SHORT).show();
+//
+            }
+        });
+        des.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                destination = ((TextView)view).getText().toString();
+                Toast.makeText(SearchActivity.this, destination, Toast.LENGTH_SHORT).show();
+//
+            }
+        });
 
+
+        Button b1 = (Button)findViewById(R.id.btn_time);//시간 받아오는 버튼
+        Button start = (Button) findViewById(R.id.search_s);//출발역 검색하는 버튼
+        Button end = (Button) findViewById(R.id.search_d);//도착역 검색하는 버튼
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SearchActivity.this, "선택된 출발역:"+station_name, Toast.LENGTH_LONG).show();
+            }
+        });
+        end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SearchActivity.this, "선택된 도착역: "+destination, Toast.LENGTH_LONG).show();
+            }
+        });
         b1.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -290,33 +332,8 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        dep.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(SearchActivity.this, "출발 역명 : " + query, Toast.LENGTH_SHORT).show();
-                station_name = query;
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        des.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(SearchActivity.this, "도착 역명 : " + query, Toast.LENGTH_SHORT).show();
-                destination = query;
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
     }
+
     //버튼 클릭시 시간 선택화면 등장 (디폴트는 현재시간, 사용자 지정 가능)
     protected Dialog onCreateDialog(int id){
         switch (id){
@@ -357,76 +374,7 @@ public class SearchActivity extends AppCompatActivity {
         }
         return super.onCreateDialog(id);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
 
-        // SearchView Hint 변경하기
-        MenuItem searchItem_a = menu.findItem(R.id.s_station);
-        SearchView searchView_a = (SearchView) MenuItemCompat.getActionView(searchItem_a);
-        searchView_a.setQueryHint("출발역");
-
-        final SearchView.SearchAutoComplete searchAutoComplete_a = searchView_a.findViewById(R.id.s_station);
-        searchAutoComplete_a.setBackgroundColor(Color.BLUE);
-        searchAutoComplete_a.setTextColor(Color.GREEN);
-        searchAutoComplete_a.setDropDownBackgroundResource(android.R.color.holo_blue_light);
-
-        // Create a new ArrayAdapter and add data to search auto complete object.
-        ArrayAdapter<String> newsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, STATIONS);
-        searchAutoComplete_a.setAdapter(newsAdapter);
-
-        // Listen to search view item on click event.
-        searchAutoComplete_a.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long id) {
-                String queryString=(String)adapterView.getItemAtPosition(itemIndex);
-                searchAutoComplete_a.setText("" + queryString);
-                Toast.makeText(SearchActivity.this, "you clicked " + queryString, Toast.LENGTH_LONG).show();
-            }
-        });
-
-        MenuItem searchItem_d = menu.findItem(R.id.d_station);
-        SearchView searchView_d = (SearchView) MenuItemCompat.getActionView(searchItem_d);
-        searchView_d.setQueryHint("도착역");
-        final SearchView.SearchAutoComplete searchAutoComplete_b = searchView_a.findViewById(R.id.d_station);
-        searchAutoComplete_b.setBackgroundColor(Color.BLUE);
-        searchAutoComplete_b.setTextColor(Color.GREEN);
-        searchAutoComplete_b.setDropDownBackgroundResource(android.R.color.holo_blue_light);
-
-        // Create a new ArrayAdapter and add data to search auto complete object.
-        ArrayAdapter<String> newsAdapter_b = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, STATIONS);
-        searchAutoComplete_b.setAdapter(newsAdapter_b);
-
-        // Listen to search view item on click event.
-        searchAutoComplete_b.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int itemIndex, long id) {
-                String queryString=(String)adapterView.getItemAtPosition(itemIndex);
-                searchAutoComplete_b.setText("" + queryString);
-                Toast.makeText(SearchActivity.this, "you clicked " + queryString, Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-
-
-        // SearchView 검색어 입력/검색 이벤트 처리
-        searchView_a.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(SearchActivity.this, "[검색버튼클릭] 검색어 = "+query, Toast.LENGTH_LONG).show();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                Toast.makeText(SearchActivity.this, "입력하고있는 단어 = "+newText, Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }
 
     }
 

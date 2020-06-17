@@ -10,17 +10,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+<<<<<<< HEAD
         <activity android:name=".MainActivity">
 
         </activity>
         <activity android:name=".ResultActivity"></activity>
         <activity android:name=".CongestionActivity"></activity>
+=======
+>>>>>>> 5e7de35b347e1b6d2fb20c967a893011e18fdc62
         <activity android:name=".main.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+=======
+
+        <activity android:name=".ResultActivity"></activity>
+        <activity android:name=".CongestionActivity"></activity>
+
+>>>>>>> 5e7de35b347e1b6d2fb20c967a893011e18fdc62
 
     </application>
 
