@@ -67,7 +67,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-<!--    <TextView
+    <TextView
         android:id = "@+id/txt1"
         android:layout_width="match_parent"
         android:layout_height="100dp"/>
@@ -75,6 +75,5 @@
         android:id = "@+id/txt2"
         android:layout_width="match_parent"
         android:layout_height="100dp"/>
-      -->
 
 </LinearLayout>

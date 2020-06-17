@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -335,7 +336,7 @@ public class SearchActivity extends AppCompatActivity {
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
-                                        /*
+
                                         //잘 돌아가는지 테스트용 - 출발
                                         String str = "";
                                         str = str+"열차코드: "+arr.get(1).TRAIN_CODE + "\n시간: "+arr.get(1).TIME +"\n방향: "+arr.get(1).TOWARDS ;
@@ -345,7 +346,7 @@ public class SearchActivity extends AppCompatActivity {
                                         String d = "";
                                         d = d+"코드: "+des_codes.get(0)+"\n호선:"+des_line.get(0);
                                         TextView data_2 = (TextView) findViewById(R.id.txt2);
-                                        data_2.setText(d);*/
+                                        data_2.setText(d);
                                     }
                                 }, // 값설정시 호출될 리스너 등록
                                 Integer.valueOf(time().substring(0,2)),Integer.valueOf(time().substring(3,5)), false); // 기본값 시분 등록
