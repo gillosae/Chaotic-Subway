@@ -19,17 +19,25 @@
         tools:layout_editor_absoluteX="-1dp"
         tools:layout_editor_absoluteY="1dp">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/dep_station"
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/start_station"
             android:layout_height="wrap_content"
-            android:layout_width="300dp"
+            android:layout_width="260dp"
             android:inputType="text"
             android:layoutDirection="rtl"
             app:defaultQueryHint="출발역"
             android:clickable="true"
+            android:completionThreshold="1"
             tools:context = "com.example.chaoticsubway.main.SearchActivity"/>
 
-
+        <Button
+            android:id = "@+id/search_s"
+            android:layout_width="40dp"
+            android:background="#00ff0000"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:layout_height="wrap_content"
+            android:icon = "@android:drawable/ic_menu_search"
+            />
         <androidx.appcompat.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,15 +59,23 @@
         tools:layout_editor_absoluteX="113dp"
         tools:layout_editor_absoluteY="58dp">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/des_station"
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/end_station"
             android:layout_height="wrap_content"
-            android:layout_width="300dp"
+            android:layout_width="260dp"
             android:inputType="text"
             android:layoutDirection="rtl"
             app:defaultQueryHint="도착역"
             android:clickable="true"
+            android:completionThreshold="1"
             tools:context = "com.example.chaoticsubway.main.SearchActivity"
+            />
+        <Button
+            android:id = "@+id/search_d"
+            android:layout_width="40dp"
+            android:background="#00ff0000"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:layout_height="wrap_content"
             />
         <Button
             android:id ="@+id/btn_time"
@@ -70,7 +86,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-      <TextView
+    <TextView
         android:id = "@+id/txt1"
         android:layout_width="match_parent"
         android:layout_height="100dp"/>

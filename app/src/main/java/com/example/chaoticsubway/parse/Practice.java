@@ -77,12 +77,12 @@ public class Practice {
     }
 
     private static void stationVar(String line) throws IOException, ParserConfigurationException {
-        OpenCsv(line, "1", "1");//ÁÖÀÏ »ó¼±
-        OpenCsv(line, "2", "1");//Åä¿äÀÏ »ó¼±
-        OpenCsv(line, "3", "1");//ÀÏ¿äÀÏ »ó¼±
-        OpenCsv(line, "1", "2");//ÁÖÀÏ ÇÏ¼±
-        OpenCsv(line, "2", "2");//Åä¿äÀÏ ÇÏ¼±
-        OpenCsv(line, "3", "2");//ÀÏ¿äÀÏ ÇÏ¼±
+        OpenCsv(line, "1", "1");//ì£¼ì¼ ìƒì„ 
+        OpenCsv(line, "2", "1");//í† ìš”ì¼ ìƒì„ 
+        OpenCsv(line, "3", "1");//ì¼ìš”ì¼ ìƒì„ 
+        OpenCsv(line, "1", "2");//ì£¼ì¼ í•˜ì„ 
+        OpenCsv(line, "2", "2");//í† ìš”ì¼ í•˜ì„ 
+        OpenCsv(line, "3", "2");//ì¼ìš”ì¼ í•˜ì„ 
     }
 
     private static void getStationInfo(int n) throws IOException {
@@ -171,11 +171,11 @@ public class Practice {
                     time_table[3] = station_info[3];
 
                     for (int a = 0; a < ns.getLength(); a++){
-                        // Ãâ¹ß½Ã°£ +  ¹æÇâ,Á¾Á¡ + ¿­Â÷¹ø
+                        // ì¶œë°œì‹œê°„ +  ë°©í–¥,ì¢…ì  + ì—´ì°¨ë²ˆ
                         e = (Element)ns.item(a);
-                        time_table[a*3+4] = e.getElementsByTagName("TRAIN_NO").item(0).getTextContent(); //¿­Â÷¹øÈ£
-                        time_table[a*3+5] = e.getElementsByTagName("LEFTTIME").item(0).getTextContent(); //Ãâ¹ß½Ã°£
-                        time_table[a*3+6] = e.getElementsByTagName("SUBWAYENAME").item(0).getTextContent(); //Á¾ÂøÁö
+                        time_table[a*3+4] = e.getElementsByTagName("TRAIN_NO").item(0).getTextContent(); //ì—´ì°¨ë²ˆí˜¸
+                        time_table[a*3+5] = e.getElementsByTagName("LEFTTIME").item(0).getTextContent(); //ì¶œë°œì‹œê°„
+                        time_table[a*3+6] = e.getElementsByTagName("SUBWAYENAME").item(0).getTextContent(); //ì¢…ì°©ì§€
                     }
                     for(int a = ns.getLength(); a < largestNum; a++){
                         time_table[a*3+4] = " ";
@@ -200,8 +200,8 @@ public class Practice {
     }
 
     private static void getTimeTable(int num, String line) throws IOException, ParserConfigurationException {
-        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file)));// °¢ È£¼± ÀĞÀ» ÆÄÀÏ ¿­±â
-        ReadCsv(num); //station code µé ÀĞ¾î¿À±â
+        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file)));// ê° í˜¸ì„  ì½ì„ íŒŒì¼ ì—´ê¸°
+        ReadCsv(num); //station code ë“¤ ì½ì–´ì˜¤ê¸°
         stationVar(line);
     }
 
