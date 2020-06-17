@@ -9,6 +9,8 @@ Subway application suggesting paths considering the congestion of cabins
     - [x] SVG Library
     - [x] Station map
     - [ ] Popup(on station click)
+    - [x] Search station name
+    - [x] Set time
 - [x] Result View
     - [x] Station 
 - [x] Congestion View
@@ -18,7 +20,7 @@ Subway application suggesting paths considering the congestion of cabins
 - [x] Crawl station data
 - [x] Crawl timetable data
 - [x] Crawl yearly congestion data
-- [ ] Parse all data
+- [x] Parse all data
 - [x] Congestion Prediction
 
 
