@@ -6,6 +6,11 @@ import java.util.Calendar;
 public class GetTime {
     static int day_num;
     static String time;
+
+    public GetTime(){//인자값 필요 없음
+        this.getDay();
+        this.dateTime();
+    }
     public static String getDay() {
         Calendar cal = Calendar.getInstance();
 
@@ -28,12 +33,7 @@ public class GetTime {
         Calendar cur_time = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("YYYYMMddHHmmss");
         time = dateFormat.format(cur_time.getTime());
-        //System.out.println(time);
+        System.out.println(time);
         return time;
-    }
-    public static void main(String[] args){
-        getDay();
-        String cur_time = dateTime();
-        System.out.println(cur_time);
     }
 }

@@ -4,14 +4,11 @@ package com.example.chaoticsubway.getInfo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.LineNumberReader;
-import java.net.URLEncoder;
+import java.io.OutputStreamWriter;
 
 public class Congestion {
     static BufferedReader data = null;
@@ -22,8 +19,13 @@ public class Congestion {
     static String up_1, up_2;
     static String down_1, down_2;
 
+    public Congestion(){
+        this.Congest(); //파일 저장하는거라 상관없음
+    }
 
     private static void getPeopleNum() throws IOException {
+        data = new BufferedReader(new InputStreamReader(new FileInputStream("../../../../../assets/parsed_congestion/2015_1.csv"), "utf-8"));
+        number = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../../../../../assets/parsed_congestion/num_of_people.csv"),"utf-8"));
         String line = null;
         LineNumberReader line_num =  new LineNumberReader(data);
         while((line=line_num.readLine())!=null){
@@ -56,14 +58,15 @@ public class Congestion {
             }
             number.newLine();
         }
-
+        number.flush();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void Congest(){
         //받아올 파일과 다시 저장할 파일 지정, utf-8로 인코딩 에러 방지
-        data = new BufferedReader(new InputStreamReader(new FileInputStream("../../../../../assets/parsed_congestion/2015_1.csv"), "utf-8"));
-        number = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../../../../../assets/parsed_congestion/num_of_people.csv"),"utf-8"));
-        getPeopleNum();
-        number.flush();
+        try {
+            getPeopleNum();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

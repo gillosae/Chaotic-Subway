@@ -6,13 +6,11 @@ import org.xml.sax.SAXException;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,7 +22,11 @@ public class MainParse {
     static String page;
     static int page_num;
 
-    public static BufferedWriter createCSV(String filepath) throws IOException {
+    public MainParse(){
+        this.Parse();
+    }
+
+    private static BufferedWriter createCSV(String filepath) throws IOException {
         bs = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filepath), "utf-8"));
         String[] entries = "Line, Station, Station Code, Distance, Total Distance, Time, Total Time".split(",");
         for(String e :entries){
@@ -34,9 +36,9 @@ public class MainParse {
         return bs;
     }
 
-    public static void putStation(String line, String name, String key) throws IOException{
+    private static void putStation(String line, String name, String key) throws IOException{
         bs.newLine();
-        String[] station = new String[7];
+        String[] station = new String[3];
 
         station[0] = line;
         station[1] = name;
@@ -49,12 +51,12 @@ public class MainParse {
         }
     }
 
-    public static void close() throws IOException {
+    private static void close() throws IOException {
         bs.flush();
         bs.close();
     }
 
-    public static String getUrl(int page_no) {
+    private static String getUrl(int page_no) {
         return baseUrl+"&pageNo="+page_no;
     }
 
@@ -78,10 +80,22 @@ public class MainParse {
         }
         return totalPage;
     }
-    public static void main(String[] args) throws Exception{
+    public static void Parse(){
         //파일 위치 추후 변경
-        bs = createCSV("../../../../../assets/stations/station.csv");
-        page = getPageNumber();
+        try {
+            bs = createCSV("../../../../../assets/stations/station.csv");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            page = getPageNumber();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
         System.out.println(page);
         page_num = Integer.parseInt(page);
         //페이지를 나눠서
@@ -92,7 +106,12 @@ public class MainParse {
         }
         for(int p=0;p<=page_num;p++) {
             System.out.println(p);
-            URL newp = new URL(getUrl(p));
+            URL newp = null;
+            try {
+                newp = new URL(getUrl(p));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             try{
                 //연결설정
                 HttpURLConnection con = (HttpURLConnection) newp.openConnection();
@@ -116,18 +135,25 @@ public class MainParse {
 
                         if(childList.getLength()>0) {
                             String line = childList.item(0).getTextContent();
-                            //System.out.println(line);
                             String station_name = childList.item(2).getTextContent();
-                            //System.out.println(station_name);
                             String station_key = childList.item(1).getTextContent();
-                            //System.out.println(station_key);
-                            //System.out.println("");
-                            System.out.println(station_key.contains("SUB2"));
-                            if(station_key.contains("SUB2")&&(station_key.length()==6)) {
+
+                            //전호선 데이터 정보 받아오기
+                            if(station_key.contains("SUB1")&&(station_key.length()==6) || station_key.contains("SUB11")&&(station_key.length()==7) || station_key.contains("SUB11")&&(station_key.length()==7)){
+                                putStation(line, station_name, station_key);
+                            }else if(station_key.contains("SUB2")&&(station_key.length()==6)) {
+                                putStation(line, station_name, station_key);
+                            }else if(station_key.contains("SUB3")&&(station_key.length()==6)) {
                                 putStation(line, station_name, station_key);
                             }else if(station_key.contains("SUB4")&&(station_key.length()==6)) {
                                 putStation(line, station_name, station_key);
+                            }else if(station_key.contains("SUB5")&&(station_key.length()==6)) {
+                                putStation(line, station_name, station_key);
+                            }else if(station_key.contains("SUB6")&&(station_key.length()==6)) {
+                                putStation(line, station_name, station_key);
                             }else if(station_key.contains("SUB7")&&(station_key.length()==6)) {
+                                putStation(line, station_name, station_key);
+                            }else if(station_key.contains("SUB8")&&(station_key.length()==6)) {
                                 putStation(line, station_name, station_key);
                             }else if(station_key.contains("SUB9")&&(station_key.length()==6)) {
                                 putStation(line, station_name, station_key);
@@ -140,9 +166,21 @@ public class MainParse {
                 }
             }catch(Exception e1){
                 e1.printStackTrace();
-                throw e1;
+                try {
+                    throw e1;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (SAXException e) {
+                    e.printStackTrace();
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        close();
+        try {
+            close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

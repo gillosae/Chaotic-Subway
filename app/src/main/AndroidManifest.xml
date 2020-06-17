@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".ResultActivity"></activity>
         <activity android:name=".CongestionActivity"></activity>
+        <activity android:name=".main.SearchActivity"></activity>
 
     </application>
 

@@ -1,16 +1,14 @@
 package com.example.chaoticsubway.parse;
-//ì—°ë„ë³„
+//¿¬µµº°
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class ParseYearData {
@@ -18,20 +16,20 @@ public class ParseYearData {
     static int len;
 
     public static String[] compare( String b, String[] station, String[] field) {
-        if(field[0].equals("í‰ì¼")){
+        if(field[0].equals("ÆòÀÏ")){
             station[0] = "01";
-        }else if(field[0].equals("í† ìš”ì¼")){
+        }else if(field[0].equals("Åä¿äÀÏ")){
             station[0] = "02";
-        }else if(field[0].equals("ì¼ìš”ì¼")){
+        }else if(field[0].equals("ÀÏ¿äÀÏ")){
             station[0] = "03";
         }
         station[1] = b;
-        if(field[2].equals("ìƒì„ ") || field[2].equals("ë‚´ì„ ")) {
+        if(field[2].equals("»ó¼±") || field[2].equals("³»¼±")) {
             station[4] = "U";
         }else {
             station[4] = "D";
         }
-        //ë‚˜ë¨¸ì§€ ì €ì¥
+        //³ª¸ÓÁö ÀúÀå
         station[3] = field[3];
         station[2] = field[4];
         //System.out.println(field.length);
@@ -126,15 +124,15 @@ public class ParseYearData {
 
                     line_num = field[1];
 
-                    if(line_num.equals("2í˜¸ì„ ")) {
+                    if(line_num.equals("2È£¼±")) {
                         //System.out.println("ok");
-                        station = compare("2í˜¸ì„ ", station, field);
-                    }else if(line_num.equals("4í˜¸ì„ ")) {
-                        station = compare( "4í˜¸ì„ ", station, field);
-                    }else if(line_num.equals("7í˜¸ì„ ")) {
-                        station = compare( "7í˜¸ì„ ", station, field);
-                    }else if(line_num.equals("9í˜¸ì„ ")){
-                        station = compare( "9í˜¸ì„ ", station, field);
+                        station = compare("2È£¼±", station, field);
+                    }else if(line_num.equals("4È£¼±")) {
+                        station = compare( "4È£¼±", station, field);
+                    }else if(line_num.equals("7È£¼±")) {
+                        station = compare( "7È£¼±", station, field);
+                    }else if(line_num.equals("9È£¼±")){
+                        station = compare( "9È£¼±", station, field);
                     }else {
                         continue;
                     }
@@ -151,7 +149,7 @@ public class ParseYearData {
 
     public static BufferedWriter createCSV(String filepath) throws IOException {
         bs = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filepath), StandardCharsets.UTF_8));
-        String[] entries = "ìš”ì¼ì½”ë“œ,í˜¸ì„ ,ì—­ë²ˆí˜¸,ì—­ëª…,êµ¬ë¶„,05:00 ~,06:00 ~,07:00 ~,08:00 ~,09:00 ~,10:00 ~,11:00 ~,12:00 ~,13:00 ~,14:00 ~,15:00 ~,16:00 ~,17:00 ~,18:00 ~,19:00 ~,20:00 ~,21:00 ~,22:00 ~,23:00 ~, 24:00~".split(",");
+        String[] entries = "¿äÀÏÄÚµå,È£¼±,¿ª¹øÈ£,¿ª¸í,±¸ºĞ,05:00 ~,06:00 ~,07:00 ~,08:00 ~,09:00 ~,10:00 ~,11:00 ~,12:00 ~,13:00 ~,14:00 ~,15:00 ~,16:00 ~,17:00 ~,18:00 ~,19:00 ~,20:00 ~,21:00 ~,22:00 ~,23:00 ~, 24:00~".split(",");
         len = entries.length;
         for(String e :entries) {
             bs.append(e);
@@ -174,7 +172,7 @@ public class ParseYearData {
     }
     public static void main(String[] args) throws IOException {
         String i = "a";
-        //ì–˜ ë³€ê²½í•´ì„œ ì‚¬ìš©
+        //¾ê º¯°æÇØ¼­ »ç¿ë
         String filename = "2015_1.csv";
         bs = createCSV("../../../../../assets/parsed_congestion/"+filename);
         readCSV("../../../../../assets/congestion/"+filename);
