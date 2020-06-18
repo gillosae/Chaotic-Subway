@@ -16,7 +16,7 @@ public class Pathway { //환승이 없는 일자경로
     private List<LocalTime> localTimes = new ArrayList<LocalTime>(); //경로상 역마다 도착시간 (첫 역은 출발시간)
     //묶을까?
 
-    public Pathway(Station depStation, Station arrStation) { //첫역(노드)과 마지막역(노드)만 받아와서 생성
+    public Pathway(Station depStation, Station arrStation, LocalTime localTime) { //첫역(노드)과 마지막역(노드)만 받아와서 생성
         stations.add(depStation);
         stations.add(arrStation);
 

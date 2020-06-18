@@ -1,6 +1,7 @@
 package com.example.chaoticsubway;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,25 +14,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import java.nio.file.Path;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
     static Boolean isTouched = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        LocalTime tempLocalTime = java.time.LocalTime.now();
+
         //Data
         ArrayList<Pathway> data = new ArrayList<>();
-        data.add(new Pathway(new Station("상도", 7), new Station("대림", 7)));
-        data.add(new Pathway(new Station("대림", 2), new Station("신촌", 2)));
+        data.add(new Pathway(new Station("상도", 7, 1), new Station("대림", 7, 1), tempLocalTime));
+        data.add(new Pathway(new Station("대림", 2, 1), new Station("신촌", 2, 1), tempLocalTime));
 
         //Adapter
         PathwayAdapter adapter = new PathwayAdapter(data);
@@ -47,8 +54,8 @@ public class ResultActivity extends AppCompatActivity {
         });
 
         //Choose current route Button
-        Button chooseRouteButton = (Button)findViewById(R.id.chooseRoute);
-        //If not real-time search, set visibility to gone
+        Button chooseRouteButton = (Button)findViewById(R.id.realTime);
+        //If not real-time search, make it gone
         chooseRouteButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view) {

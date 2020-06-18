@@ -8,17 +8,20 @@ import java.util.List;
 
 public class Station {
     private String stationName; //이름
-    private long id; //아이디(역번호)
+    private int id; //아이디(역번호)
     private List<Integer> line = new ArrayList<Integer>(); //호선
 
-    List<Pair<String, Integer>> adjacentStation = new ArrayList<Pair<String, Integer>>(); //인접역, 인접역까지의 운행시간
+    public int time = Integer.MAX_VALUE;
 
-    public Station(String stationName, int line /*long id,*/ /* Pair<String, Integer> adj*/) {
+    public List<Pair<String, Integer>> adjacentStation = new ArrayList<Pair<String, Integer>>(); //인접역, 호선
+
+
+    public Station(String stationName, int line, int id) {
         System.out.println(line);
         this.stationName = stationName;
         this.line.add(line);
-//        this.id = id;
-//        adjacentStation.add(adj);
+        this.id = id;
+
     }
 
     public String getStationName() {
@@ -29,11 +32,11 @@ public class Station {
         this.stationName = stationName;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -53,8 +56,9 @@ public class Station {
         return adjacentStation;
     }
 
-    public void setAdjacentStation(List<Pair<String, Integer>> adjacentStation) {
-        this.adjacentStation = adjacentStation;
+    public void setAdjacentStation(Pair<String, Integer> adjacentStation) {
+        this.adjacentStation.add(adjacentStation);
+//        System.out.println(getStationName() + adjacentStation.second + adjacentStation.first);
     }
 
     @Override

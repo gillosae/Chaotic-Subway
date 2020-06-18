@@ -18,4 +18,8 @@
     <color name="lineGC">#08af7b</color>
     <color name="lineSBD">#a71e31</color>
     <color name="lineGH">#73b6e4</color>
+    <color name="colorEasy">#188300</color>
+    <color name="colorMiddle">#FFDD00</color>
+    <color name="colorHard">#FF5722</color>
+    <color name="colorHardcore">#E91E1E</color>
 </resources>

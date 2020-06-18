@@ -8,25 +8,54 @@
     android:orientation="vertical"
     tools:context="com.example.chaoticsubway.MainActivity">
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/start_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="57dp"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow">
+        app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="1dp">
         <androidx.appcompat.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="혼잡도 "
             android:textAppearance="?android:textAppearanceSmallPopupMenu"/>
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/start_station"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
+            android:layout_width="80dp"
+            android:layout_marginHorizontal="5dp"
             android:inputType="text"
             android:layoutDirection="rtl"
-            app:defaultQueryHint="출발역을 입력하세요" />
+            app:defaultQueryHint="출발역"
+            android:clickable="true"
+            android:completionThreshold="1"
+            tools:context = "com.example.chaoticsubway.MainActivity"/>
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/end_station"
+            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_marginHorizontal="5dp"
+            android:inputType="text"
+            android:layoutDirection="rtl"
+            app:defaultQueryHint="도착역"
+            android:clickable="true"
+            android:completionThreshold="1"
+            tools:context = "com.example.chaoticsubway.MainActivity" />
+        <Button
+            android:id ="@+id/btn_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "시간설정" />
+        <Button
+            android:id ="@+id/search"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@android:drawable/ic_menu_search"
+            android:background="@color/colorPrimary"/>
     </androidx.appcompat.widget.Toolbar>
 
     <com.example.chaoticsubway.FullScrollView
@@ -39,8 +68,7 @@
         <com.caverock.androidsvg.SVGImageView
             android:id="@+id/map"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
     </com.example.chaoticsubway.FullScrollView>
 

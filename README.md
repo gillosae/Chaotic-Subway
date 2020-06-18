@@ -12,9 +12,8 @@ Subway application suggesting paths considering the congestion of cabins
     - [x] Search station name
     - [x] Set time
 - [x] Result View
-    - [x] Station 
+    - [x] Station Adapter
 - [x] Congestion View
-
 
 ## Data
 - [x] Crawl station data
@@ -28,6 +27,7 @@ Subway application suggesting paths considering the congestion of cabins
 - [x] Station, Line, Train class
 - [x] Ford Algorithm
 - [ ] Ford Algorithm(Concerning congestion rate)
+- [ ] Algorithm concerning Time Table
 - [x] Draw specific search results
 - [ ] Number of transfers, Estimated Time, Fee
 - [x] Apply to result view

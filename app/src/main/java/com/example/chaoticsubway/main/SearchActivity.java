@@ -54,7 +54,49 @@ public class SearchActivity extends AppCompatActivity {
     static InputStream input;
     static String set_time;
 
-//역명 모두 가져오기
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        try {
+            getStationList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
+        final AutoCompleteTextView dep = (AutoCompleteTextView) findViewById(R.id.start_station);
+        final AutoCompleteTextView des = (AutoCompleteTextView) findViewById(R.id.end_station);
+
+        // AutoCompleteTextView 에 아답터를 연결한다.
+        dep.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,  STATIONS ));
+        des.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,  STATIONS ));
+
+        dep.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                station_name = ((TextView)view).getText().toString();
+                Toast.makeText(SearchActivity.this, station_name, Toast.LENGTH_SHORT).show();
+            }
+        });
+        des.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                destination = ((TextView)view).getText().toString();
+                Toast.makeText(SearchActivity.this, destination, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button b1 = (Button)findViewById(R.id.btn_time);//시간 받아오는 버튼
+        b1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                showDialog(DIALOG_TIME);
+            }
+        });
+    }
+
+
+    //역명 모두 가져오기
     private void getStationList() throws IOException {
         STATIONS = new ArrayList<String>();
         int n=0;
@@ -67,16 +109,24 @@ public class SearchActivity extends AppCompatActivity {
                 if(arr[0].equals("Line")){
                     continue;
                 }else{
-                    STATIONS.add(arr[1]);
-                    //System.out.println("station:"+STATIONS.get(n));
-                    n++;
+                    int same =0;
+                    for(int a=0;a<STATIONS.size();a++){
+                        if(STATIONS.get(a).equals(arr[1])){
+                            same++;
+                        }else{
+                            continue;
+                        }
+                    }
+                    if(same==0){
+                        STATIONS.add(arr[1]);
+                    }
                 }
             }
         }
     }
 
     //요일 코드
-    public  void day() {
+    public void day() {
         Calendar cal = Calendar.getInstance();
 
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
@@ -111,7 +161,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     //현재시간 - 동작 확인 완료
-    public  String time() {
+    public String time() {
         Calendar cur_time = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         return dateFormat.format(cur_time.getTime());
@@ -271,102 +321,39 @@ public class SearchActivity extends AppCompatActivity {
 
    // private SearchView search;
     final int DIALOG_TIME =2;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        try {
-            getStationList();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-   final AutoCompleteTextView dep = (AutoCompleteTextView) findViewById(R.id.start_station);
-        final AutoCompleteTextView des = (AutoCompleteTextView) findViewById(R.id.end_station);
-
-        // AutoCompleteTextView 에 아답터를 연결한다.
-        dep.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,  STATIONS ));
-        des.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line,  STATIONS ));
-
-        dep.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                station_name = ((TextView)view).getText().toString();
-                Toast.makeText(SearchActivity.this, station_name, Toast.LENGTH_SHORT).show();
-//
-            }
-        });
-        des.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                destination = ((TextView)view).getText().toString();
-                Toast.makeText(SearchActivity.this, destination, Toast.LENGTH_SHORT).show();
-//
-            }
-        });
-
-
-        Button b1 = (Button)findViewById(R.id.btn_time);//시간 받아오는 버튼
-        Button start = (Button) findViewById(R.id.search_s);//출발역 검색하는 버튼
-        Button end = (Button) findViewById(R.id.search_d);//도착역 검색하는 버튼
-
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(SearchActivity.this, "선택된 출발역:"+station_name, Toast.LENGTH_LONG).show();
-            }
-        });
-        end.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(SearchActivity.this, "선택된 도착역: "+destination, Toast.LENGTH_LONG).show();
-            }
-        });
-        b1.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                showDialog(DIALOG_TIME);
-            }
-        });
-
-    }
 
     //버튼 클릭시 시간 선택화면 등장 (디폴트는 현재시간, 사용자 지정 가능)
     protected Dialog onCreateDialog(int id){
         switch (id){
             case DIALOG_TIME:
-                TimePickerDialog tpd =
-                        new TimePickerDialog(SearchActivity.this,
-                                new TimePickerDialog.OnTimeSetListener() {
-                                    @Override
-                                    public void onTimeSet(TimePicker view,
-                                                          int hourOfDay, int minute) {
-                                        set_time = Integer.toString(hourOfDay)+":"+minute + ":00";
-                                        Toast.makeText(getApplicationContext(),
-                                                hourOfDay +"시 " + minute+"분 을 선택했습니다",
-                                                Toast.LENGTH_SHORT).show();
-                                        try {
-                                            info(station_name);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+                TimePickerDialog tpd = new TimePickerDialog(SearchActivity.this,
+                    new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view,
+                                              int hourOfDay, int minute) {
+                            set_time = Integer.toString(hourOfDay)+":"+minute + ":00";
+                            Toast.makeText(getApplicationContext(),
+                                    hourOfDay +"시 " + minute+"분 을 선택했습니다",
+                                    Toast.LENGTH_SHORT).show();
+                            try {
+                                info(station_name);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
-                                        //잘 돌아가는지 테스트용 - 출발
-                                        String str = "";
-                                        str = str+"열차코드: "+arr.get(1).TRAIN_CODE + "\n시간: "+arr.get(1).TIME +"\n방향: "+arr.get(1).TOWARDS ;
-                                        TextView data_1 = (TextView) findViewById(R.id.txt1);
-                                        data_1.setText(str);
-                                        //테스트용 - 도착
-                                        String d = "";
-                                        d = d+"코드: "+des_codes.get(0)+"\n호선:"+des_line.get(0);
-                                        TextView data_2 = (TextView) findViewById(R.id.txt2);
-                                        data_2.setText(d);
-                                    }
-                                }, // 값설정시 호출될 리스너 등록
-                                Integer.valueOf(time().substring(0,2)),Integer.valueOf(time().substring(3,5)), false); // 기본값 시분 등록
+                            //잘 돌아가는지 테스트용 - 출발
+                            String str = "";
+                            str = str+"열차코드: "+arr.get(1).TRAIN_CODE + "\n시간: "+arr.get(1).TIME +"\n방향: "+arr.get(1).TOWARDS ;
+                            TextView data_1 = (TextView) findViewById(R.id.txt1);
+                            data_1.setText(str);
+                            //테스트용 - 도착
+                            String d = "";
+                            d = d+"코드: "+des_codes.get(0)+"\n호선:"+des_line.get(0);
+                            TextView data_2 = (TextView) findViewById(R.id.txt2);
+                            data_2.setText(d);
+                        }
+                    }, // 값설정시 호출될 리스너 등록
+                    Integer.valueOf(time().substring(0,2)),Integer.valueOf(time().substring(3,5)), false); // 기본값 시분 등록
 
                 // true : 24 시간(0~23) 표시
                 // false : 오전/오후 항목이 생김
@@ -374,8 +361,6 @@ public class SearchActivity extends AppCompatActivity {
         }
         return super.onCreateDialog(id);
     }
-
-
-    }
+}
 
 

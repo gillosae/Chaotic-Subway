@@ -115,15 +115,18 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_cabin"/>
+                    android:src="@drawable/ic_cabin"
+                    android:tint="@color/colorEasy"/>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_cabin"/>
+                    android:src="@drawable/ic_cabin"
+                    android:tint="@color/colorEasy"/>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_cabin"/>
+                    android:src="@drawable/ic_cabin"
+                    android:tint="@color/colorMiddle"/>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -138,7 +141,8 @@
                     android:layout_height="30dp"
                     android:text="1"
                     android:textSize="20dp"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    />
                 <TextView
                     android:layout_width="50dp"
                     android:layout_height="30dp"
@@ -156,7 +160,7 @@
                     android:layout_height="30dp"
                     android:text="4"
                     android:textSize="20dp"
-                    android:gravity="center"/>
+                    android:gravity="center" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,19 +169,23 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_cabin"/>
+                    android:src="@drawable/ic_cabin"
+                    android:tint="@color/colorEasy"/>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_cabin"/>
+                    android:src="@drawable/ic_cabin"
+                    android:tint="@color/colorMiddle"/>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_cabin"/>
+                    android:src="@drawable/ic_cabin"
+                    android:tint="@color/colorEasy"/>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_cabin"/>
+                    android:src="@drawable/ic_cabin"
+                    android:tint="@color/colorEasy"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

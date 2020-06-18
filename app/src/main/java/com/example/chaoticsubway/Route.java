@@ -14,7 +14,7 @@ public class Route {
     public List<Pathway> GetPathways(){ //Conversion for Pathway view -> 그냥 Route로 생성되게 수정하는게 나을듯
         List<Pathway> pathways = new ArrayList<Pathway>();
         for (int i=0; i<nodes.size()-1; i++){
-            pathways.add(new Pathway(nodes.get(i).getStation(), nodes.get(i+1).getStation()));
+            pathways.add(new Pathway(nodes.get(i).getStation(), nodes.get(i+1).getStation(), null));
         }
         return pathways;
     }
