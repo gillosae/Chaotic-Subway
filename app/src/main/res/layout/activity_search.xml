@@ -56,10 +56,19 @@
             android:drawableStart="@android:drawable/ic_menu_search"
             android:layout_height="wrap_content" />
         <Button
-            android:id ="@+id/btn_time"
-            android:layout_width="wrap_content"
+            android:id ="@+id/btn_date"
+            android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:text = "시간설정" />
+            android:text = "날짜"
+            />
+        <Button
+            android:id ="@+id/btn_time"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:text = "시간"
+            />
+
+
     </androidx.appcompat.widget.Toolbar>
 
 

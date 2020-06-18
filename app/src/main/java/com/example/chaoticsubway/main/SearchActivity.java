@@ -1,5 +1,6 @@
 package com.example.chaoticsubway.main;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import android.widget.ArrayAdapter;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -53,6 +55,7 @@ public class SearchActivity extends AppCompatActivity {
     static List<TrainInfo> arr = new ArrayList<TrainInfo>();
     static InputStream input;
     static String set_time;
+    static int year, month, day, day_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,28 +123,60 @@ public class SearchActivity extends AppCompatActivity {
                     if(same==0){
                         STATIONS.add(arr[1]);
                     }
+                    //System.out.println("station:"+STATIONS.get(n));
+                    n++;
                 }
             }
         }
     }
+//얘만 다시 손보기
+    public void getDateNum(int y, int m, int d) {
 
-    //요일 코드
-    public void day() {
-        Calendar cal = Calendar.getInstance();
+        int total_days = 0, weekday;
 
-        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        total_days += (y - 1900) * 365;
+        total_days += (y - 1900) / 4;
+
+        if ((((y % 4 == 0) && (y % 100 != 0) || (y % 400 == 0)) && (m == 1 || m == 2)) == true) {
+            total_days--;
+        }
+        if (m >= 3) {
+            total_days += 28 + 31 + 31 * ((m / 2) - 1) + 30 * (Math.round((double) m / 2) - 2) + d;
+        } else if (m == 1) {
+            total_days += d;
+        } else if (m == 2) {
+            total_days += 31 + d;
+        }
+        if (m >= 9) {
+            total_days++;
+        }
+        weekday = total_days % 7;
+        System.out.println(weekday);
         int num;
-        switch(dayOfWeek){
+        switch (weekday) {
             case 6:
                 num = 02;
                 break;
-            case 7:
+            case 0:
                 num = 03;
                 break;
             default:
                 num = 01;
+
         }
         day_num = Integer.toString(num);
+        System.out.println(day_num);
+    }
+    //요일 코드
+    public void day(){
+        Calendar cal = Calendar.getInstance();
+        //default 값
+        year = cal.get(Calendar.YEAR);
+        month =  cal.get(Calendar.MONTH);
+        day = cal.get(Calendar.DATE);
+        day_code = cal.get(Calendar.DAY_OF_WEEK);
+        System.out.println("현재시간:"+year+"년"+month+"월"+day+"일");
+
     }
 
     //출발역 - 인코딩 문제 나중에 다시 확인
@@ -291,7 +326,7 @@ public class SearchActivity extends AppCompatActivity {
         time = time();
         if(!set_time.equals(time)){
             time = set_time; }
-        day();
+        //day();
     }
 
     //이 모든것을 실행하고 받은 시간표에 따라 리스트로 정리
@@ -321,43 +356,133 @@ public class SearchActivity extends AppCompatActivity {
 
    // private SearchView search;
     final int DIALOG_TIME =2;
+    final int DIALOG_DATE =1;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        try {
+            getStationList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
+   final AutoCompleteTextView dep = (AutoCompleteTextView) findViewById(R.id.start_station);
+        final AutoCompleteTextView des = (AutoCompleteTextView) findViewById(R.id.end_station);
+
+        // AutoCompleteTextView 에 아답터를 연결한다.
+        dep.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,  STATIONS ));
+        des.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,  STATIONS ));
+
+        dep.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                station_name = ((TextView)view).getText().toString();
+                Toast.makeText(SearchActivity.this, station_name, Toast.LENGTH_SHORT).show();
+//
+            }
+        });
+        des.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                destination = ((TextView)view).getText().toString();
+                Toast.makeText(SearchActivity.this, destination, Toast.LENGTH_SHORT).show();
+//
+            }
+        });
+
+
+        Button b1 = (Button)findViewById(R.id.btn_time);//시간 받아오는 버튼
+        Button b2 = (Button)findViewById(R.id.btn_date);//날짜받아오는 버튼
+
+        Button start = (Button) findViewById(R.id.search_s);//출발역 검색하는 버튼
+        Button end = (Button) findViewById(R.id.search_d);//도착역 검색하는 버튼
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SearchActivity.this, "선택된 출발역:"+station_name, Toast.LENGTH_LONG).show();
+            }
+        });
+        end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SearchActivity.this, "선택된 도착역: "+destination, Toast.LENGTH_LONG).show();
+            }
+        });
+        b1.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                showDialog(DIALOG_TIME);
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(DIALOG_DATE);
+            }
+        });
+    }
 
     //버튼 클릭시 시간 선택화면 등장 (디폴트는 현재시간, 사용자 지정 가능)
     protected Dialog onCreateDialog(int id){
         switch (id){
             case DIALOG_TIME:
-                TimePickerDialog tpd = new TimePickerDialog(SearchActivity.this,
-                    new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view,
-                                              int hourOfDay, int minute) {
-                            set_time = Integer.toString(hourOfDay)+":"+minute + ":00";
-                            Toast.makeText(getApplicationContext(),
-                                    hourOfDay +"시 " + minute+"분 을 선택했습니다",
-                                    Toast.LENGTH_SHORT).show();
-                            try {
-                                info(station_name);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                TimePickerDialog tpd =
+                        new TimePickerDialog(SearchActivity.this,
+                                new TimePickerDialog.OnTimeSetListener() {
+                                    @Override
+                                    public void onTimeSet(TimePicker view,
+                                                          int hourOfDay, int minute) {
+                                        set_time = Integer.toString(hourOfDay)+":"+minute + ":00";
+                                        Toast.makeText(getApplicationContext(),
+                                                hourOfDay +"시 " + minute+"분 을 선택했습니다",
+                                                Toast.LENGTH_SHORT).show();
+                                        try {
+                                            info(station_name);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
 
-                            //잘 돌아가는지 테스트용 - 출발
-                            String str = "";
-                            str = str+"열차코드: "+arr.get(1).TRAIN_CODE + "\n시간: "+arr.get(1).TIME +"\n방향: "+arr.get(1).TOWARDS ;
-                            TextView data_1 = (TextView) findViewById(R.id.txt1);
-                            data_1.setText(str);
-                            //테스트용 - 도착
-                            String d = "";
-                            d = d+"코드: "+des_codes.get(0)+"\n호선:"+des_line.get(0);
-                            TextView data_2 = (TextView) findViewById(R.id.txt2);
-                            data_2.setText(d);
-                        }
-                    }, // 값설정시 호출될 리스너 등록
-                    Integer.valueOf(time().substring(0,2)),Integer.valueOf(time().substring(3,5)), false); // 기본값 시분 등록
+                                        //잘 돌아가는지 테스트용 - 출발
+                                        String str = "";
+                                        str = str+"열차코드: "+arr.get(1).TRAIN_CODE + "\n시간: "+arr.get(1).TIME +"\n방향: "+arr.get(1).TOWARDS ;
+                                        TextView data_1 = (TextView) findViewById(R.id.txt1);
+                                        data_1.setText(str);
+                                        //테스트용 - 도착
+                                        String d = "";
+                                        d = d+"코드: "+des_codes.get(0)+"\n호선:"+des_line.get(0);
+                                        TextView data_2 = (TextView) findViewById(R.id.txt2);
+                                        data_2.setText(d);
+                                    }
+                                }, // 값설정시 호출될 리스너 등록
+                                Integer.valueOf(time().substring(0,2)),Integer.valueOf(time().substring(3,5)), false);
+                return tpd;// 기본값 시분 등록
+
+            case DIALOG_DATE:
+                day();
+                DatePickerDialog dpd = new DatePickerDialog
+                        (SearchActivity.this, // 현재화면의 제어권자
+                                new DatePickerDialog.OnDateSetListener() {
+                                    public void onDateSet(DatePicker view,
+                                                          int year, int monthOfYear, int dayOfMonth) {
+                                        Toast.makeText(getApplicationContext(),
+                                                year+"년 "+(monthOfYear+1)+"월 "+dayOfMonth+"일 을 선택했습니다",
+                                                Toast.LENGTH_SHORT).show();
+                                        getDateNum(year, monthOfYear+1, dayOfMonth);
+                                    }
+                                }
+                                , // 사용자가 날짜설정 후 다이얼로그 빠져나올때
+                                //    호출할 리스너 등록
+                                year, month, day); // 기본값 연월일
+                return dpd;
 
                 // true : 24 시간(0~23) 표시
                 // false : 오전/오후 항목이 생김
-                return tpd;
+
         }
         return super.onCreateDialog(id);
     }
