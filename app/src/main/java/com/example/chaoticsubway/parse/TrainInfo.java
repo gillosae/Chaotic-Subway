@@ -23,6 +23,7 @@ public class TrainInfo {
     static ArrayList<String> Trains;
     static ArrayList<String> STATIONS;
     static int num;
+    static int l;
 
     private static void getStations(String l) throws IOException {// 열차 명 다 가져오기
         String file = "ordered/line_"+l+".csv";
@@ -95,6 +96,7 @@ public class TrainInfo {
         String filename = "trainSchedule/"+ line+"_"+day+"_"+up_down+".csv";
 
         int n;
+        l=0;
         for(int i=0;i<STATIONS.size();i++){
             //System.out.println(STATIONS.get(i));
             n=0;
@@ -109,13 +111,15 @@ public class TrainInfo {
                         bw.append(arr[3*a+5]);
                         bw.append(",");
                         n++;
-                        break;
+                        l++;
+                        //break;
                     }
                 }
             }
             if(n==0){
                 bw.append("");
                 bw.append(",");
+                l++;
             }
         }
         /*
@@ -162,6 +166,7 @@ public class TrainInfo {
             bw.append(",");
         }
         bw.newLine();
+        System.out.println(STATIONS.size());
         getTrainNo(line, day, updown);
     }
 
@@ -174,6 +179,7 @@ public class TrainInfo {
         for(int a=0;a<Trains.size();a++){
             //System.out.println(Trains.get(a));
             writeByName(line, day, up_down, Trains.get(a));
+            System.out.println(l);
             bw.newLine();
         }
         bw.flush();

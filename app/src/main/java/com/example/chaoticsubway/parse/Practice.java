@@ -214,21 +214,21 @@ public class Practice {
     public static void main(String[] args) throws IOException, ParserConfigurationException {
         file = "line_1.csv";
         getTimeTable(99, "1");
-        file = "line_2.csv";
-        getTimeTable(52, "2");
-        file = "line_3.csv";
-        getTimeTable(45, "3");
-        file = "line_4.csv";
-        getTimeTable(49, "4");
-        file = "line_5.csv";
-        getTimeTable(52, "5");
-        file = "line_6.csv";
-        getTimeTable(39, "6");
-        file = "line_7.csv";
-        getTimeTable(52, "7");
-        file = "line_8.csv";
-        getTimeTable(18, "8");
-        file = "line_9.csv";
-        getTimeTable(31, "9");
+        //file = "line_2.csv";
+        //getTimeTable(52, "2");
+        //file = "line_3.csv";
+        //getTimeTable(45, "3");
+        //file = "line_4.csv";
+        //getTimeTable(49, "4");
+       // file = "line_5.csv";
+       // getTimeTable(52, "5");
+        //file = "line_6.csv";
+        //getTimeTable(39, "6");
+        //file = "line_7.csv";
+        //getTimeTable(52, "7");
+        //file = "line_8.csv";
+        //getTimeTable(18, "8");
+        //file = "line_9.csv";
+        //getTimeTable(31, "9");
     }
 }
