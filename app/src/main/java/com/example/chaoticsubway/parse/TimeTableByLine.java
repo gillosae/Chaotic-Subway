@@ -22,7 +22,7 @@ public class TimeTableByLine {
     static BufferedReader br = null;
     static BufferedWriter bw = null;
     static String baseUrl = "http://openapi.seoul.go.kr:8088/766a6f517773737736374163504c43/xml/SearchSTNTimeTableByFRCodeService/1/450/";
-    static String basePath = "../../../../../assets/stations/";
+    static String basePath = "../../../../../assets/ordered/";
     static String station_code[];
     static String line_num;
     static String thisFile;

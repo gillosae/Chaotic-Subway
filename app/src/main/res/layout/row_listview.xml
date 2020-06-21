@@ -70,21 +70,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-<<<<<<< HEAD
-    <TextView
-=======
-      <TextView
->>>>>>> 5e7de35b347e1b6d2fb20c967a893011e18fdc62
-        android:id = "@+id/txt1"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"/>
-    <TextView
-        android:id = "@+id/txt2"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"/>
-<<<<<<< HEAD
-=======
 
->>>>>>> 5e7de35b347e1b6d2fb20c967a893011e18fdc62
+
 
 </LinearLayout>

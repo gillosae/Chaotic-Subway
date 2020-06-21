@@ -24,15 +24,15 @@ public class Practice {
     static BufferedReader br = null;
     static BufferedWriter bw = null;
     static String baseUrl = "http://openapi.seoul.go.kr:8088/766a6f517773737736374163504c43/xml/SearchSTNTimeTableByFRCodeService/1/450/";
-    static String basepath = "../../../../../assets/stations/";
+    static String basepath = "../../../../../assets/ordered/";
     static String[] station_code;
     static String[] station_info = new String[4];
     static String file;
     static int largestNum;
 
     private static void OpenCsv(String line, String week, String up_down) throws IOException, ParserConfigurationException {
-        bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../../../../../assets/trainSchedule/"+line+"_"+week+"_"+up_down+".csv")));
-        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file)));
+        bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../../../../../assets/trainSchedule/"+line+"_"+week+"_"+up_down+".csv"),"utf-8"));
+        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file), "utf-8"));
         String[] entries = br.readLine().split(",");
 
         getLargestNum(up_down, week);
@@ -61,7 +61,7 @@ public class Practice {
     }
 
     private static void ReadCsv(int len) throws IOException {
-        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file)));
+        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file),"utf-8"));
         String line = null;
         station_code = new String[(len-1)];
         int i=0;
@@ -86,7 +86,7 @@ public class Practice {
     }
 
     private static void getStationInfo(int n) throws IOException {
-        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file)));
+        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file),"utf-8"));
         String line = br.readLine();
         while(line!=null){
             LineNumberReader num = new LineNumberReader(br);
@@ -139,7 +139,7 @@ public class Practice {
         largestNum = largest;
     }
     private static void ParseData(String line, String week, String up_down) throws IOException {
-        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file)));
+        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file),"utf-8"));
         for(int i=0;i<station_code.length;i++){
             getStationInfo(i);
             String url = newUrl(baseUrl, station_code[i], up_down, week);
@@ -200,7 +200,7 @@ public class Practice {
     }
 
     private static void getTimeTable(int num, String line) throws IOException, ParserConfigurationException {
-        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file)));// 각 호선 읽을 파일 열기
+        br = new BufferedReader(new InputStreamReader(new FileInputStream(basepath+file),"utf-8"));// 각 호선 읽을 파일 열기
         ReadCsv(num); //station code 들 읽어오기
         stationVar(line);
     }
