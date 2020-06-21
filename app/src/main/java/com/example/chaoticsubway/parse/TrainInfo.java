@@ -40,6 +40,7 @@ public class TrainInfo {
             }
         }
         num = STATIONS.size();
+        System.out.println(num);
     }
 
     //열차 번호 겹치는 것 없게 다 가져오기
@@ -79,7 +80,7 @@ public class TrainInfo {
                             if(arr[i*3+4].equals(" ")){
                                 continue;
                             }else{
-                                System.out.println(arr[i*3+4]);
+                                //System.out.println(arr[i*3+4]);
                                 Trains.add(arr[i * 3 + 4]);
                             }
                         }
@@ -180,7 +181,7 @@ public class TrainInfo {
     }
 
     public static void main(String[] args) throws IOException {
-        for(int i=1;i<9;i++){
+        for(int i=1;i<2;i++){
             String n= Integer.toString(i);
             getStations(n);
             parse(n, "1","1");
