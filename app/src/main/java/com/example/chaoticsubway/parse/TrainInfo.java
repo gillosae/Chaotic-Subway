@@ -93,31 +93,28 @@ public class TrainInfo {
         bw.append(",");
         String filename = "trainSchedule/"+ line+"_"+day+"_"+up_down+".csv";
 
+        int n;
         for(int i=0;i<STATIONS.size();i++){
             //System.out.println(STATIONS.get(i));
+            n=0;
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(PATH + filename), "utf-8"));
             String row = null;
             while((row = br.readLine())!=null){
                 String arr[]  = row.split(",");
-                if(arr[1].equals(STATIONS.get(i))){
-                    //System.out.print(STATIONS.get(i));
-                    int len = (arr.length-4)/3;
-                    //System.out.println(len);
-                    for(int a =0;a<len;a++){
-                        //System.out.println(a);
-                        if(arr[3*a+4].equals(Train)){
-                            System.out.println(arr[3*a+5]);
-                            bw.append(arr[3*a+5]);
-                            bw.append(",");
-                        }else{
-                            //bw.append(" ");
-                            //bw.append(",");
-                            continue;
-                        }
+                int len = (arr.length-4)/3;
+                //int n=0;
+                for(int a=0;a<len;a++){
+                    if(arr[1].equals(STATIONS.get(i))&& arr[3*a+4].equals(Train)){
+                        bw.append(arr[3*a+5]);
+                        bw.append(",");
+                        n++;
                     }
-                }else{
-                    continue;
                 }
+
+            }
+            if(n==0){
+                bw.append("");
+                bw.append(",");
             }
         }
         /*
@@ -148,6 +145,11 @@ public class TrainInfo {
 */
 
     }
+
+    private static void getTime(){
+
+    }
+
     // 역 모두 가져오기
     private static void writeHeader(String line, String day, String updown) throws IOException {
         String filename = line+"_"+day+"_"+updown+".csv";
