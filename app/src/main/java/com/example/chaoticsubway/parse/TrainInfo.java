@@ -178,7 +178,7 @@ public class TrainInfo {
     }
 
     public static void main(String[] args) throws IOException {
-        for(int i=1;i<10;i++){
+        for(int i=9;i<10;i++){
             String n= Integer.toString(i);
             getStations(n);
             parse(n, "1","1");

@@ -57,7 +57,49 @@ public class SearchActivity extends AppCompatActivity {
     static String set_time;
     static int year, month, day, day_code;
 
-//역명 모두 가져오기
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        try {
+            getStationList();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
+        final AutoCompleteTextView dep = (AutoCompleteTextView) findViewById(R.id.start_station);
+        final AutoCompleteTextView des = (AutoCompleteTextView) findViewById(R.id.end_station);
+
+        // AutoCompleteTextView 에 아답터를 연결한다.
+        dep.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,  STATIONS ));
+        des.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,  STATIONS ));
+
+        dep.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                station_name = ((TextView)view).getText().toString();
+                Toast.makeText(SearchActivity.this, station_name, Toast.LENGTH_SHORT).show();
+            }
+        });
+        des.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                destination = ((TextView)view).getText().toString();
+                Toast.makeText(SearchActivity.this, destination, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Button b1 = (Button)findViewById(R.id.btn_time);//시간 받아오는 버튼
+        b1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                showDialog(DIALOG_TIME);
+            }
+        });
+    }
+
+
+    //역명 모두 가져오기
     private void getStationList() throws IOException {
         STATIONS = new ArrayList<String>();
         int n=0;
@@ -154,7 +196,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     //현재시간 - 동작 확인 완료
-    public  String time() {
+    public String time() {
         Calendar cur_time = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         return dateFormat.format(cur_time.getTime());
@@ -444,8 +486,6 @@ public class SearchActivity extends AppCompatActivity {
         }
         return super.onCreateDialog(id);
     }
-
-
-    }
+}
 
 

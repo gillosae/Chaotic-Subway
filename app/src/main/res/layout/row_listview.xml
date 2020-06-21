@@ -5,8 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_height="match_parent">
-
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/start_toolbar"
         android:layout_width="match_parent"
@@ -18,59 +16,50 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="-1dp"
         tools:layout_editor_absoluteY="1dp">
-
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="혼잡도 "
+            android:textAppearance="?android:textAppearanceSmallPopupMenu"/>
         <androidx.appcompat.widget.SearchView
             android:id="@+id/dep_station"
             android:layout_height="wrap_content"
-            android:layout_width="300dp"
+            android:layout_width="150dp"
             android:inputType="text"
             android:layoutDirection="rtl"
             app:defaultQueryHint="출발역"
             android:clickable="true"
             tools:context = "com.example.chaoticsubway.main.SearchActivity"/>
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="혼잡도 "
-
-            android:textAppearance="?android:textAppearanceSmallPopupMenu"/>
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/des_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="57dp"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/Widget.AppCompat.PopupMenu.Overflow"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="113dp"
-        tools:layout_editor_absoluteY="58dp">
-
         <androidx.appcompat.widget.SearchView
             android:id="@+id/des_station"
             android:layout_height="wrap_content"
-            android:layout_width="300dp"
+            android:layout_width="150dp"
             android:inputType="text"
             android:layoutDirection="rtl"
             app:defaultQueryHint="도착역"
             android:clickable="true"
             tools:context = "com.example.chaoticsubway.main.SearchActivity"
             />
-        <Button
-            android:id ="@+id/btn_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text = "시간설정"
-            />
 
     </androidx.appcompat.widget.Toolbar>
 
+<<<<<<< HEAD
 
 
+=======
+    <Button
+        android:id ="@+id/btn_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "시간설정" />
+    <TextView
+        android:id = "@+id/txt1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+    <TextView
+        android:id = "@+id/txt2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+>>>>>>> origin
 
 </LinearLayout>

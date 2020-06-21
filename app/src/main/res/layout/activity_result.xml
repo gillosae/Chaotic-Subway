@@ -21,13 +21,13 @@
             android:layout_height="wrap_content"
             android:text="혼잡도 "
             android:textAppearance="?android:textAppearanceSmallPopupMenu"/>
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:inputType="text"
-            android:layoutDirection="rtl"
-            app:defaultQueryHint="역을 입력하세요" />
+<!--        <androidx.appcompat.widget.SearchView-->
+<!--            android:id="@+id/search_view"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:inputType="text"-->
+<!--            android:layoutDirection="rtl"-->
+<!--            app:defaultQueryHint="역을 입력하세요" />-->
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -48,8 +48,6 @@
             android:textSize="20sp" />
         <include
             layout="@layout/offer"/>
-
-
     </LinearLayout>
 
 
@@ -80,10 +78,10 @@
             android:textSize="15sp"
             android:padding="10sp"/>
         <Button
-            android:id="@+id/chooseRoute"
+            android:id="@+id/realTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="이걸로 가즈아"
+            android:text="실시간"
             android:textSize="15sp"
             android:padding="10sp"/>
     </LinearLayout>

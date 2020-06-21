@@ -35,7 +35,8 @@ class Graph {
             dist[i] = Integer.MAX_VALUE;
         dist[src] = 0;
 
-        //Relax all edges |V| - 1 times. A simple shortest path from src to any other vertex can have at-most |V| - 1 edges
+        //Relax all edges |V| - 1 times
+        //A simple shortest path from src to any other vertex can have at-most |V| - 1 edges
         for (int i = 1; i < V; ++i) {
             for (int j = 0; j < E; ++j) {
                 int u = graph.edge[j].src;
