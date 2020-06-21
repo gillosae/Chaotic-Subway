@@ -173,8 +173,14 @@ public class Practice {
                     for (int a = 0; a < ns.getLength(); a++){
                         // 출발시간 +  방향,종점 + 열차번
                         e = (Element)ns.item(a);
+                       // String[] time;
+                       // int k;
                         time_table[a*3+4] = e.getElementsByTagName("TRAIN_NO").item(0).getTextContent(); //열차번호
-                        time_table[a*3+5] = e.getElementsByTagName("LEFTTIME").item(0).getTextContent(); //출발시간
+                        if(e.getElementsByTagName("ARRIVETIME").item(0).getTextContent().equals("00:00:00")) {
+                            time_table[a*3+5] = (e.getElementsByTagName("LEFTTIME").item(0).getTextContent());
+                        }else{
+                            time_table[a*3+5] = e.getElementsByTagName("ARRIVETIME").item(0).getTextContent();
+                        }
                         time_table[a*3+6] = e.getElementsByTagName("SUBWAYENAME").item(0).getTextContent(); //종착지
                     }
                     for(int a = ns.getLength(); a < largestNum; a++){

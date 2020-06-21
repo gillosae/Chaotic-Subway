@@ -108,9 +108,9 @@ public class TrainInfo {
                         bw.append(arr[3*a+5]);
                         bw.append(",");
                         n++;
+                        break;
                     }
                 }
-
             }
             if(n==0){
                 bw.append("");
@@ -180,7 +180,7 @@ public class TrainInfo {
     }
 
     public static void main(String[] args) throws IOException {
-        for(int i=9;i<10;i++){
+        for(int i=1;i<9;i++){
             String n= Integer.toString(i);
             getStations(n);
             parse(n, "1","1");
