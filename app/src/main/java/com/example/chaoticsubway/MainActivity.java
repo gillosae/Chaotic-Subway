@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -97,29 +99,41 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Both start and end stations should be node station
-
-                startStation = allStations.get(depView.getText().toString());
-                endStation = allStations.get(desView.getText().toString());
-                if(!startStation.isNode()) nodeStations.put(startStation.getStationName(), startStation);
-                if(!endStation.isNode()) nodeStations.put(endStation.getStationName(), endStation);
+//                startStation = allStations.get(depView.getText().toString());
+//                endStation = allStations.get(desView.getText().toString());
+//                if(!startStation.isNode()) nodeStations.put(startStation.getStationName(), startStation);
+//                if(!endStation.isNode()) nodeStations.put(endStation.getStationName(), endStation);
 //                beginSearch();
+
+                String startStation = "미아";
+                String endStation = "뚝섬유원지";
+                int dayCategory = 1; //평일
+                LocalDateTime startTime = LocalDateTime.of(2020,6,22,7,20);
+
+                RouteSearcher rs = null;
+                try {
+                    rs = new RouteSearcher(getApplicationContext(), startTime);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    rs.RouteSearch(startStation, endStation, startTime, new ArrayList<String>());
+                    System.out.println(rs.successPath.get(0));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                finally{
+                    System.out.println("성공한 길찾기 경로 개수는 " + rs.successPath.size());
+                }
+
                 Intent resultIntent = new Intent(v.getContext(), ResultActivity.class);
                 startActivity(resultIntent);
                 depView.setText("");
                 desView.setText("");
 
-
             }
         });
-
-//        List<String> realPassedStations = new ArrayList<String>();
-//        beginSearch(realPassedStations, startStation.getStationName(), endStation.getStationName(), Integer.parseInt(startStation.getLine().get(0)), 0);
-//        System.out.println("/////////////////////////////////////////////////////////////");
-//        for(String ps : realPassedStations){
-//            System.out.println(ps);
-//        }
-//        System.out.println(realPassedStations.size());
-
 
     }
     static List<String> STATIONS = new ArrayList<>();
@@ -148,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         return dateFormat.format(cur_time.getTime());
     }
 
-    final int DIALOG_TIME =2;
+    final int DIALOG_TIME = 2;
     protected Dialog onCreateDialog(int id){ //버튼 클릭시 시간 선택화면 등장 (디폴트는 현재시간, 사용자 지정 가능)
         if(id==DIALOG_TIME){
             TimePickerDialog tpd = new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
@@ -213,29 +227,29 @@ public class MainActivity extends AppCompatActivity {
 
     int timecount = 0;
 
-    public void beginSearch(List<String> passedStations, String currentStation, String endStation, int line, int time){
-        if(allStations.get(currentStation).time > timecount){
+    public void beginSearch(List<String> passedStations, String currentStation, String endStation, int line, int time) {
+        if (allStations.get(currentStation).time > timecount) {
             allStations.get(currentStation).time = timecount;
             passedStations.add(currentStation);
-            System.out.println("///"+ currentStation + line);
+            System.out.println("///" + currentStation + line);
             System.out.println("//////////////////////" + passedStations.size());
-        }else{
+        } else {
             System.out.println("Depre");
             return; //Deprecate
         }
 
-        if(currentStation.equals(endStation)){
+        if (currentStation.equals(endStation)) {
             System.out.println("Finish" + currentStation);
             System.out.println(time);
             return; //Finish
         }
 
-        for(int k=0; k<allStations.get(currentStation).adjacentStation.size(); k++){
+        for (int k = 0; k < allStations.get(currentStation).adjacentStation.size(); k++) {
             String adjName = allStations.get(currentStation).adjacentStation.get(k).first;
             Integer adjLine = allStations.get(currentStation).adjacentStation.get(k).second;
 
             int transTime = 4;
-            if(allStations.get(adjName).getLine().contains(line)){
+            if (allStations.get(adjName).getLine().contains(line)) {
                 transTime = 0;
             }
             //List<String> passedStations, String currentStation, String endStation, int line, int time
@@ -243,93 +257,7 @@ public class MainActivity extends AppCompatActivity {
             List<String> copiedList = new ArrayList<String>();
             copiedList.addAll(passedStations);
 
-            beginSearch(copiedList, adjName.toString(), endStation.toString(), adjLine, (3 + time + transTime) );
+            beginSearch(copiedList, adjName.toString(), endStation.toString(), adjLine, (3 + time + transTime));
         }
-//
-//        for(Pair<String, Integer> st : allStations.get(currentStation).adjacentStation){
-//            String adjName = st.getKey();
-//            Integer adjLine = st.
-//
-//            int transTime = 4;
-//            if(allStations.get(st.first).getLine().contains(line)){
-//                transTime = 0;
-//            }
-//            //List<String> passedStations, String currentStation, String endStation, int line, int time
-//            beginSearch(passedStations, st.first.toString(), endStation.toString(), st.second, (3 + time + transTime) );
-//        }
-
     }
-//    private void getStationList() throws IOException { //Get Station from csv
-//        STATIONS = new ArrayList<String>();
-//        int n = 0;
-//        for(int i = 1; i < 10; i++){
-//            String path = "stations/line_" + i +".csv";
-//            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(path)));
-//            String line;
-//            while((line = br.readLine()) != null){
-//                String[] arr = line.split(",");
-//                if(arr[0].equals("Line")){
-//                    continue;
-//                }else{
-//                    if(allStations.containsKey(arr[1])){
-//                        allStations.get(arr[1]).setLine(Integer.parseInt(arr[0]));
-//                        if(!nodeStations.containsKey(arr[1])){
-//                            nodeStations.put(arr[1], allStations.get(arr[1]));
-//                        }
-//                    }else{
-//                        allStations.put(arr[1], new Station(arr[1], Integer.parseInt(arr[0]), Integer.parseInt(arr[2])));
-//                    }
-//
-//                    int same = 0;
-//                    for(int a=0; a < STATIONS.size(); a++){
-//                        if(STATIONS.get(a).equals(arr[1])) same++;
-//                        else continue;
-//                    }
-//                    if(same == 0){
-//                        STATIONS.add(arr[1]);
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-//    public void getAdjacent() throws IOException{
-//        //Loop through trainSchedule files
-//        for (int i=1; i<=9; i++){ //Line
-//            for(int j=1; j<=1; j++){ //평일, 토요일, 공휴일
-//                for(int k=1; k<=1; k++){ //상행, 하행
-//                    String filename = "trainSchedule/"+ i + "_" + j + "_"+ k + ".csv";
-//                    BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(filename)));
-//                    String schedule;
-//
-//                    while((schedule = br.readLine()) != null){
-//                        System.out.println(schedule);
-//                        String[] columns = schedule.split(",");
-//                        nodeStations.get(allStations.get(columns[1]).getStationName()).setAdjacentStation(new Pair(allStations.get(columns[1]).getStationName(), i));
-////                        if(allStations.get(columns[0]).isNode()){
-////                            for (int l=1; l<columns.length; l++){
-////                                if(allStations.get(columns[l]).isNode()){
-////                                    nodeStations.get(allStations.get(columns[1]).getStationName()).setAdjacentStation(new Pair(allStations.get(columns[l]).getStationName(), i));
-////                                    break;
-////                                }
-////                            }
-////                        }else{
-////                            continue;
-////                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-    public void getArrivalTime(String start, String end, int line, LocalTime localTime){
-        Station startStation = allStations.get(start);
-        Station endStation = allStations.get(end);
-
-        String filename = "trainSchedule/" + line+"_" + day_num+"_" + 1 + ".csv";
-
-    }
-
-
-
 }
