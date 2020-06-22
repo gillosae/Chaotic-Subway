@@ -1,29 +1,45 @@
 package com.example.chaoticsubway;
 
-import java.time.LocalTime;
+import android.os.Build;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+
+import java.time.LocalDateTime;
 
 public class Node {
-    private Station station;
-    private LocalTime localTime;
+    private String station;
+    private LocalDateTime time;
 
-    public Node(Station station, LocalTime localTime) {
+    public Node(String station, LocalDateTime localTime) {
         this.station = station;
-        this.localTime = localTime;
+        this.time = localTime;
     }
 
-    public Station getStation() {
+    public String getStation() {
         return station;
     }
 
-    public void setStation(Station station) {
+    public void setStation(String station) {
         this.station = station;
     }
 
-    public LocalTime getLocalTime() {
-        return localTime;
+    public LocalDateTime getTime() {
+        return time;
     }
 
-    public void setLocalTime(LocalTime localTime) {
-        this.localTime = localTime;
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @NonNull
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("{");
+        sb.append(station).append('\'');
+        sb.append(time.toLocalTime()).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

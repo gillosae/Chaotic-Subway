@@ -105,28 +105,39 @@ public class MainActivity extends AppCompatActivity {
 //                if(!endStation.isNode()) nodeStations.put(endStation.getStationName(), endStation);
 //                beginSearch();
 
-                String startStation = "미아";
-                String endStation = "뚝섬유원지";
+                String startStation = "";
+                String endStation = "";
+
+                if(depView.getText().toString().equals(""))
+                    startStation = "학동";
+                else
+                    startStation = depView.getText().toString();
+
+                if(desView.getText().toString().equals(""))
+                    endStation = "선릉";
+                else
+                    endStation = desView.getText().toString();
+
                 int dayCategory = 1; //평일
                 LocalDateTime startTime = LocalDateTime.of(2020,6,22,7,20);
 
-                RouteSearcher rs = null;
-                try {
-                    rs = new RouteSearcher(getApplicationContext(), startTime);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    rs.RouteSearch(startStation, endStation, startTime, new ArrayList<String>());
-                    System.out.println(rs.successPath.get(0));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                finally{
-                    System.out.println("성공한 길찾기 경로 개수는 " + rs.successPath.size());
-                }
-
+//                RouteSearcher rs = null;
+//                try {
+//                    rs = new RouteSearcher(getApplicationContext(), startTime);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                try {
+//                    rs.RouteSearch(startStation, endStation, startTime, new ArrayList<Node>());
+//                    System.out.println(rs.successPath.get(0));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                finally{
+//                    System.out.println("성공한 길찾기 경로 개수는 " + rs.successPath.size());
+//                }
+//
                 Intent resultIntent = new Intent(v.getContext(), ResultActivity.class);
                 startActivity(resultIntent);
                 depView.setText("");

@@ -5,6 +5,8 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -12,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pathway { //환승이 없는 일자경로
-    private List<Station> stations = new ArrayList<Station>(); //경로상의 모든 역
-    private List<LocalTime> localTimes = new ArrayList<LocalTime>(); //경로상 역마다 도착시간 (첫 역은 출발시간)
+    private List<String> stations = new ArrayList<String>(); //경로상의 모든 역
+    private List<LocalDateTime> localTimes = new ArrayList<LocalDateTime>(); //경로상 역마다 도착시간 (첫 역은 출발시간)
     //묶을까?
 
-    public Pathway(Station depStation, Station arrStation, LocalTime localTime) { //첫역(노드)과 마지막역(노드)만 받아와서 생성
+    public Pathway(String depStation, String arrStation, LocalDateTime localTime) { //첫역(노드)과 마지막역(노드)만 받아와서 생성
         stations.add(depStation);
         stations.add(arrStation);
 
@@ -29,27 +31,27 @@ public class Pathway { //환승이 없는 일자경로
 //        System.out.println(depStation.toString());
     }
 
-    public List<Station> getStations() {
+    public List<String> getStations() {
         return stations;
     }
 
-    public void setStations(List<Station> stations) {
+    public void setStations(List<String> stations) {
         this.stations = stations;
     }
 
-    public List<LocalTime> getLocalTimes() {
+    public List<LocalDateTime> getLocalTimes() {
         return localTimes;
     }
 
-    public void setLocalTimes(List<LocalTime> localTimes) {
+    public void setLocalTimes(List<LocalDateTime> localTimes) {
         this.localTimes = localTimes;
     }
 
-    public Station getDepStation(){ //Get departure station
+    public String getDepStation(){ //Get departure station
         return stations.get(0);
     }
 
-    public Station getArrStation(){ //Get arrival station
+    public String getArrStation(){ //Get arrival station
         return stations.get(stations.size() - 1); //추후수정
     }
 
@@ -70,9 +72,9 @@ public class Pathway { //환승이 없는 일자경로
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Pathway{");
-        sb.append("From='").append(getDepStation().getStationName()).append('\'');
+        sb.append("From='").append(getDepStation()).append('\'');
         sb.append(", at='").append(getDepTime()).append('\'');
-        sb.append(", To='").append(getArrStation().getStationName()).append('\'');
+        sb.append(", To='").append(getArrStation()).append('\'');
         sb.append(", at='").append(getArrTime()).append('\'');
         sb.append(", Total '").append(stations.size()).append('\'');
         sb.append('}');

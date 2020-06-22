@@ -56,38 +56,38 @@ public class PathwayAdapter extends BaseAdapter {
 
         //짧게수정
         Drawable drawable;
-        switch(mData.get(position).getDepStation().getLine().get(0)){
-            case 1:
-                drawable = parent.getResources().getDrawable(R.drawable.line1);
-                break;
-            case 2:
-                drawable = parent.getResources().getDrawable(R.drawable.line2);
-                break;
-            case 3:
-                drawable = parent.getResources().getDrawable(R.drawable.line3);
-                break;
-            case 4:
-                drawable = parent.getResources().getDrawable(R.drawable.line4);
-                break;
-            case 5:
-                drawable = parent.getResources().getDrawable(R.drawable.line5);
-                break;
-            case 6:
-                drawable = parent.getResources().getDrawable(R.drawable.line6);
-                break;
-            case 7:
-                drawable = parent.getResources().getDrawable(R.drawable.line7);
-                break;
-            case 8:
-                drawable = parent.getResources().getDrawable(R.drawable.line8);
-                break;
-            case 9:
-                drawable = parent.getResources().getDrawable(R.drawable.line9);
-                break;
-            default:
-                drawable = parent.getResources().getDrawable(R.drawable.ic_launcher_background);
-                break;
-        }
+//        switch(mData.get(position).getDepStation().getLine().get(0)){
+//            case 1:
+//                drawable = parent.getResources().getDrawable(R.drawable.line1);
+//                break;
+//            case 2:
+//                drawable = parent.getResources().getDrawable(R.drawable.line2);
+//                break;
+//            case 3:
+//                drawable = parent.getResources().getDrawable(R.drawable.line3);
+//                break;
+//            case 4:
+//                drawable = parent.getResources().getDrawable(R.drawable.line4);
+//                break;
+//            case 5:
+//                drawable = parent.getResources().getDrawable(R.drawable.line5);
+//                break;
+//            case 6:
+//                drawable = parent.getResources().getDrawable(R.drawable.line6);
+//                break;
+//            case 7:
+//                drawable = parent.getResources().getDrawable(R.drawable.line7);
+//                break;
+//            case 8:
+//                drawable = parent.getResources().getDrawable(R.drawable.line8);
+//                break;
+//            case 9:
+//                drawable = parent.getResources().getDrawable(R.drawable.line9);
+//                break;
+//            default:
+//                drawable = parent.getResources().getDrawable(R.drawable.ic_launcher_background);
+//                break;
+//        }
 
         //Data from current position(index)
         Pathway pathway = mData.get(position);
@@ -95,12 +95,12 @@ public class PathwayAdapter extends BaseAdapter {
 
         //Set data to view
         depTime.setText(pathway.getDepTime());
-        depStationName.setText(pathway.getDepStation().getStationName());
-        depLineCircle.setImageDrawable(drawable);
+        depStationName.setText(pathway.getDepStation());
+//        depLineCircle.setImageDrawable(drawable);
 
         arrTime.setText(pathway.getArrTime());
-        arrStationName.setText(pathway.getArrStation().getStationName());
-        arrLineCircle.setImageDrawable(drawable);
+        arrStationName.setText(pathway.getArrStation());
+//        arrLineCircle.setImageDrawable(drawable);
 
         return convertView;
     }

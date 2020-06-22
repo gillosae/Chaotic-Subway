@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,12 +35,12 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        LocalTime tempLocalTime = java.time.LocalTime.now();
+        LocalDateTime tempTime = java.time.LocalDateTime.now();
 
         //Data
         ArrayList<Pathway> data = new ArrayList<>();
-        data.add(new Pathway(new Station("상도", 7, 1), new Station("대림", 7, 1), tempLocalTime));
-        data.add(new Pathway(new Station("대림", 2, 1), new Station("신촌", 2, 1), tempLocalTime));
+        data.add(new Pathway("상도", "대림", tempTime));
+        data.add(new Pathway("대림", "신촌",  tempTime));
 
         //Adapter
         PathwayAdapter adapter = new PathwayAdapter(data);

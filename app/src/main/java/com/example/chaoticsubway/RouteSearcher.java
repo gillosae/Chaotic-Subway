@@ -55,7 +55,7 @@ public class RouteSearcher {
     }
 
     //결과 루트를 저장하는 리스트가 있어야한다. 시간과 역을. 열차번호와 무슨행인지 열차정보도.
-    public ArrayList<ArrayList<String>> successPath = new ArrayList<ArrayList<String>>();
+    public ArrayList<ArrayList<Node>> successPath = new ArrayList<ArrayList<Node>>();
 
 //    private ArrayList<Station> passedStations = new ArrayList<Station>();
 
@@ -70,7 +70,6 @@ public class RouteSearcher {
         String[] strArr = str.split(":");
 
         boolean atleastOneAlpha = str.matches(".*[a-zA-Z]+.*");;
-
         if(!atleastOneAlpha){
             if(Integer.parseInt(strArr[0]) < 24){
                 return LocalDateTime.of(dateTime.toLocalDate(), LocalTime.of(Integer.parseInt(strArr[0]), Integer.parseInt(strArr[1]), Integer.parseInt(strArr[2])));
@@ -81,16 +80,16 @@ public class RouteSearcher {
         return null;
     }
 
-    public void RouteSearch(String startStation, String endStation, LocalDateTime startTime, ArrayList<String> passedStations) throws IOException {
+    public void RouteSearch(String startStation, String endStation, LocalDateTime startTime, ArrayList<Node> passedStations) throws IOException {
         System.out.println("/// Route Search : "+ startStation + " -> " + endStation + " " + startTime.toLocalTime());
         String currentStation = startStation;
 
         for(int i=0; i<stations.get(startStation).getLine().size(); i++){ //해당 역에서 탈 수 있는 호선 전부 돌기
             for(int sh=1; sh<=2; sh++){ //상선 하선 모두 돌기
                 int currentLine = stations.get(startStation).getLine().get(i);
-                System.out.println("현재 "+ currentLine + "호선 " + ((sh == 1)? "상선" : "하선"));
+                System.out.println(currentLine + "호선 " + ((sh == 1)? "상선" : "하선"));
 
-                BufferedReader br = new BufferedReader(new InputStreamReader(context.getAssets().open("TrainNo/"+currentLine + "_" + dayCategory+"_" + sh +".csv"))); //상행 먼저. 하행도 해야함
+                BufferedReader br = new BufferedReader(new InputStreamReader(context.getAssets().open("TrainNo/"+currentLine + "_" + dayCategory+"_" + sh +".csv")));
                 String line;
 
                 //startStation의 컬럼 인덱스 찾기
@@ -104,62 +103,43 @@ public class RouteSearcher {
                     }
                 }
 
-                //둘째줄부터 쭉 훑어가며 startStation 컬럼 중 최초로 현재시간에 근접한 로우(시간) 찾기
+                //둘째줄부터 쭉 훑어가며 startStation 컬럼이 최초로 현재시간에 근접한 로우(시간) 찾기
                 while((line = br.readLine()) != null) {
                     String[] arr = line.split(",");
-                    if(arr.length <= columnOfStation) continue; //콤마는 무시하는듯.
+                    if(arr.length <= columnOfStation) continue; //뒤에 싹 빈 콤마는 무시하는듯.
                     if(arr[columnOfStation].equals("") || strToTime(arr[columnOfStation])==null) continue; //null이거나 첫줄이라 데이트타임포맷이 아닌 경우에 대한 예외처리
-                    if(strToTime(arr[columnOfStation]).isAfter(startTime)){ //근접한 시간을 찾았다면
-                        if(sh == 1){ //상선일 경우
-                            for(int k=columnOfStation-1; k>0; k--) { //찾은 줄에서 startStation 위치부터 하나하나 인덱스 낮춰가며 역 확인
-                                if (arr[k] == null || strToTime(arr[k]) == null)  //컬럼이 빈칸이거나 숫자타입이 아니라면
-                                    continue; //갈 수 없으므로 컨티뉴. 지선으로 연결될 수도 있으므로 반복문을 빠져나가지 않고 검색은 계속 해준다
-                                if (passedStations.contains(firstArr[k])/* && !(arr[k].equals(""))*/) //보고있는 컬럼의 역이 이미 지나친 역인데다 현재 탄 열차가 그 역을 거쳐가면
-                                    break; //이 경로는 아예 의미가 없으므로 반복문 탈출
-                                currentStation = firstArr[k]; //현재역을 보고있는 컬럼으로 지정 후
-                                passedStations.add(currentStation); //passedStation에 저장.
-//                                System.out.println(passedStations);
-                                if (currentStation.equals(endStation)) { //이때 currentStation과 endStation이 같으면 길찾기 성공
-                                    System.out.println("//////////////////// 길찾기 성공");
-//                                    successPath.add(passedStations);
-//                                    System.out.println(passedStations);
-                                    break; //이 반복문을 탈출하여 새로운 경로를 탐색한다
-                                } else if (stations.get(currentStation).getLine().size() > 1) { //현재 역이 환승역이라면
-                                    System.out.println(passedStations);
-                                    System.out.println(stations.get(currentStation));
-                                    ArrayList<String> copiedStations = new ArrayList<String>();
-                                    for(int f=0; f<passedStations.size(); f++){
-                                        copiedStations.add(passedStations.get(f));
-                                    }
-                                    RouteSearch(currentStation, endStation, strToTime(arr[k])/*.plusMinutes(transferMinute)*/, copiedStations); //환승기회 제공
-                                }
+
+                    if(strToTime(arr[columnOfStation]).isAfter(startTime)){ //근접한 시간을 찾았다면 (가장 빨리 오는 열차의 열과 행을 찾았다면)
+                        int k = columnOfStation + ((sh == 1 ) ? -1 : 1);
+                        while(k >= 1 || k <= arr.length - 1) { //찾은 줄에서 columnOfStation 위치부터 하나하나 인덱스 옮겨가며 역과 시간 확인
+                            if (arr[k] == null || strToTime(arr[k]) == null)  //컬럼이 빈칸이거나 숫자타입이 아니라면
+                                continue; //갈 수 없으므로 컨티뉴. 지선으로 연결될 수도 있으므로 반복문을 빠져나가지 않고 검색은 계속 해준다
+                            if (passedStations.contains(firstArr[k])/* && !(arr[k].equals(""))*/) //보고있는 컬럼의 역이 이미 지나친 역인데다 현재 탄 열차가 그 역을 거쳐가면
+                                break; //이 경로는 아예 의미가 없으므로 반복문 탈출
+
+                            currentStation = firstArr[k]; //현재역을 보고있는 컬럼으로 지정 후
+                            passedStations.add(new Node(currentStation, strToTime(arr[k]))); //passedStation에 저장.
+                            System.out.println(currentStation);
+
+                            if (currentStation.equals(endStation)) { //이때 currentStation과 endStation이 같으면 길찾기 성공
+                                System.out.println("//////////////////// 길찾기 성공");
+                                successPath.add(passedStations);
+                                System.out.println(passedStations);
+                                break; //이 반복문을 탈출하여 새로운 경로를 탐색한다
                             }
-                            return;
-                        }else{ //하선일 경우
-                            for(int k=columnOfStation+1; k<arr.length; k++){ //찾은 줄에서 startStation 위치부터 하나하나 인덱스 낮춰가며 역 확인
-                                if (arr[k] == null || strToTime(arr[k]) == null)  //컬럼이 빈칸이거나 숫자타입이 아니라면
-                                    continue; //갈 수 없으므로 컨티뉴. 지선으로 연결될 수도 있으므로 반복문을 빠져나가지 않고 검색은 계속 해준다
-                                if (passedStations.contains(firstArr[k])/* && !(arr[k].equals(""))*/) //보고있는 컬럼의 역이 이미 지나친 역인데다 현재 탄 열차가 그 역을 거쳐가면
-                                    break; //이 경로는 아예 의미가 없으므로 반복문 탈출
-                                currentStation = firstArr[k]; //현재역을 보고있는 컬럼으로 지정 후
-                                passedStations.add(currentStation); //passedStation에 저장.
-//                                System.out.println(passedStations);
-                                if (currentStation.equals(endStation)) { //이때 currentStation과 endStation이 같으면 길찾기 성공
-                                    System.out.println("//////////////////// 길찾기 성공");
-                                    successPath.add(passedStations);
-//                                    System.out.println(passedStations);
-                                    break; //이 반복문을 탈출하여 새로운 경로를 탐색한다
-                                } else if (stations.get(currentStation).getLine().size() > 1) { //현재 역이 환승역이라면
-                                    System.out.println(passedStations);
-                                    System.out.println(stations.get(currentStation));
-                                    ArrayList<String> copiedStations = new ArrayList<String>();
-                                    for(int f=0; f<passedStations.size(); f++){
-                                        copiedStations.add(passedStations.get(f));
-                                    }
-                                    RouteSearch(currentStation, endStation, strToTime(arr[k])/*.plusMinutes(transferMinute)*/, copiedStations); //환승기회 제공
+
+                            if (stations.get(currentStation).getLine().size() > 1) { //현재 역이 환승역이라면
+                                System.out.println(passedStations);
+                                System.out.println(stations.get(currentStation));
+                                ArrayList<Node> copiedStations = new ArrayList<Node>();
+                                for(int f=0; f<passedStations.size(); f++){
+                                    copiedStations.add(new Node(passedStations.get(f).getStation(), passedStations.get(f).getTime()));
                                 }
+                                RouteSearch(currentStation, endStation, strToTime(arr[k])/*.plusMinutes(transferMinute)*/, copiedStations); //환승기회 제공
                             }
-                            return;
+
+                            if(sh == 1) k--; //상선일 경우 인덱스 하나 낮추기
+                            else k++; //하선일 경우 인덱스 하나 올리기
                         }
                     }
                 }
