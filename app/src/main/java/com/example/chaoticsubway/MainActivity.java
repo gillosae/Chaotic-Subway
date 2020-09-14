@@ -53,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
     private int startHour; //LocalTime.of(startHour, startMinute)
     private int startMinute;
 
+    int vertex = 58;
+    int edge = 206;
+    SubwayGraph subwayGraph = new SubwayGraph(vertex, edge);
+    String[] transferStations = new String[vertex];
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -60,19 +65,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getStationInfo();
-
         //Toolbar
-        Toolbar myToolbar = (Toolbar)findViewById(R.id.start_toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.start_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //FullScrollView
-        FullScrollView scrollView = (FullScrollView)findViewById(R.id.scrollView);
+        FullScrollView scrollView = (FullScrollView) findViewById(R.id.scrollView);
         scrollView.scrollTo(1000, 0);
 
         //SVGImageView
-        SVGImageView svgImageView = (SVGImageView)findViewById(R.id.map);
+        SVGImageView svgImageView = (SVGImageView) findViewById(R.id.map);
         svgImageView.setImageAsset("subway_map_small.svg");
         svgImageView.setMinimumWidth(10000);
         svgImageView.setMinimumHeight(10000);
@@ -81,12 +84,12 @@ public class MainActivity extends AppCompatActivity {
         //AutoCompleteTextView
         final AutoCompleteTextView depView = (AutoCompleteTextView) findViewById(R.id.start_station);
         final AutoCompleteTextView desView = (AutoCompleteTextView) findViewById(R.id.end_station);
-        depView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,  STATIONS ));
-        desView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,  STATIONS ));
+        depView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, STATIONS));
+        desView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, STATIONS));
 
         //TimeSet Button
-        Button timeButton = (Button)findViewById(R.id.btn_time);
-        timeButton.setOnClickListener(new View.OnClickListener(){
+        Button timeButton = (Button) findViewById(R.id.btn_time);
+        timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(DIALOG_TIME);
@@ -94,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Search Button (For intent)
-        Button searchButton = (Button)findViewById(R.id.search);
-        searchButton.setOnClickListener(new Button.OnClickListener(){
+        Button searchButton = (Button) findViewById(R.id.search);
+        searchButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Both start and end stations should be node station
@@ -108,36 +111,19 @@ public class MainActivity extends AppCompatActivity {
                 String startStation = "";
                 String endStation = "";
 
-                if(depView.getText().toString().equals(""))
+                if (depView.getText().toString().equals(""))
                     startStation = "학동";
                 else
                     startStation = depView.getText().toString();
 
-                if(desView.getText().toString().equals(""))
+                if (desView.getText().toString().equals(""))
                     endStation = "선릉";
                 else
                     endStation = desView.getText().toString();
 
                 int dayCategory = 1; //평일
-                LocalDateTime startTime = LocalDateTime.of(2020,6,22,7,20);
+                LocalDateTime startTime = LocalDateTime.of(2020, 6, 22, 7, 20);
 
-//                RouteSearcher rs = null;
-//                try {
-//                    rs = new RouteSearcher(getApplicationContext(), startTime);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                try {
-//                    rs.RouteSearch(startStation, endStation, startTime, new ArrayList<Node>());
-//                    System.out.println(rs.successPath.get(0));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                finally{
-//                    System.out.println("성공한 길찾기 경로 개수는 " + rs.successPath.size());
-//                }
-//
                 Intent resultIntent = new Intent(v.getContext(), ResultActivity.class);
                 startActivity(resultIntent);
                 depView.setText("");
@@ -146,7 +132,59 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Route Search
+        String transferStationsPath = "transferstations.csv";
+
+        try {
+            SetTransferStations(transferStations, transferStationsPath);
+            SetAdjacentStations(transferStations, transferStationsPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        for (int i = 0; i < edge; i++) {
+//            subwayGraph.edge[i].src = 0;
+//            subwayGraph.edge[i].dest = 0;
+//            subwayGraph.edge[i].weight = 1;
+//        }
+        subwayGraph.BellmanFord(subwayGraph, 0);
+
     }
+
+    void SetTransferStations(String[] transferStations, String transferStationsPath) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(transferStationsPath)));
+        String line;
+        int lineNum = 0;
+        while((line = br.readLine()) != null){
+            String[] arr = line.split(",");
+            transferStations[lineNum] = arr[0];
+            System.out.println(lineNum + " " + transferStations[lineNum]);
+            lineNum++;
+        }
+    }
+
+    void SetAdjacentStations(String[] transferStations, String transferStationsPath) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(transferStationsPath)));
+        String line;
+        int edgeNum = 0;
+        while((line = br.readLine()) != null){
+            String[] arr = line.split(",");
+            for(int j=1; j<arr.length; j++){
+                subwayGraph.edge[edgeNum].src = GetVertexNum(arr[0]);
+                subwayGraph.edge[edgeNum].dest = GetVertexNum(arr[j]);
+                subwayGraph.edge[edgeNum].weight = 1;
+                edgeNum+=1;
+            }
+        }
+    }
+
+    int GetVertexNum(String string){
+        for(int i=0; i<transferStations.length; i++){
+            if(transferStations[i].equals(string))
+                return i;
+        }
+        return 0;
+    }
+
     static List<String> STATIONS = new ArrayList<>();
     List <TrainInfo> result;
     //AssetManager assets = getApplicationContext().getAssets();
@@ -158,8 +196,7 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<String> line_num = new ArrayList<>();//출발역 호선 (환승역일 수 있으므로)
     static String cur_station;//출발역 이름
     static ArrayList<String> train_num = new ArrayList<>();//열차 번호 리스트로
-    static ArrayList<String> station_codes = new ArrayList<>();//출발역 코드
-    static ArrayList<String> des_codes = new ArrayList<>();//도착역 코드
+
     static ArrayList<String> dep_time = new ArrayList<>();
     static ArrayList<String> towards = new ArrayList<>();
     //static ArrayList<ArrayList<String>> result = new ArrayList<>();
@@ -236,39 +273,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    int timecount = 0;
 
-    public void beginSearch(List<String> passedStations, String currentStation, String endStation, int line, int time) {
-        if (allStations.get(currentStation).time > timecount) {
-            allStations.get(currentStation).time = timecount;
-            passedStations.add(currentStation);
-            System.out.println("///" + currentStation + line);
-            System.out.println("//////////////////////" + passedStations.size());
-        } else {
-            System.out.println("Depre");
-            return; //Deprecate
-        }
-
-        if (currentStation.equals(endStation)) {
-            System.out.println("Finish" + currentStation);
-            System.out.println(time);
-            return; //Finish
-        }
-
-        for (int k = 0; k < allStations.get(currentStation).adjacentStation.size(); k++) {
-            String adjName = allStations.get(currentStation).adjacentStation.get(k).first;
-            Integer adjLine = allStations.get(currentStation).adjacentStation.get(k).second;
-
-            int transTime = 4;
-            if (allStations.get(adjName).getLine().contains(line)) {
-                transTime = 0;
-            }
-            //List<String> passedStations, String currentStation, String endStation, int line, int time
-
-            List<String> copiedList = new ArrayList<String>();
-            copiedList.addAll(passedStations);
-
-            beginSearch(copiedList, adjName.toString(), endStation.toString(), adjLine, (3 + time + transTime));
-        }
-    }
 }
