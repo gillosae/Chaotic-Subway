@@ -43,20 +43,15 @@ public class MainActivity extends AppCompatActivity {
     private static BufferedReader br = null;
     private LocalTime localTime;
 
-    private List<PointF> pointAs = new ArrayList<PointF>();
-    private List<PointF> pointBs = new ArrayList<PointF>();
-    private PointF pointA = new PointF(100, 100);
-    private PointF pointB = new PointF(1000, 1000);
-
     private Station startStation;
     private Station endStation;
     private int startHour; //LocalTime.of(startHour, startMinute)
     private int startMinute;
 
-    int vertex = 58;
-    int edge = 206;
-    SubwayGraph subwayGraph = new SubwayGraph(vertex, edge);
-    String[] transferStations = new String[vertex];
+    private static int vertex = 58;
+    private int edge = 206;
+    public SubwayGraph subwayGraph = new SubwayGraph(vertex, edge);
+    public static String[] transferStations = new String[vertex];
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -104,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 //Both start and end stations should be node station
 //                startStation = allStations.get(depView.getText().toString());
 //                endStation = allStations.get(desView.getText().toString());
-//                if(!startStation.isNode()) nodeStations.put(startStation.getStationName(), startStation);
-//                if(!endStation.isNode()) nodeStations.put(endStation.getStationName(), endStation);
 //                beginSearch();
 
                 String startStation = "";
@@ -146,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
 //            subwayGraph.edge[i].dest = 0;
 //            subwayGraph.edge[i].weight = 1;
 //        }
-        subwayGraph.BellmanFord(subwayGraph, 0);
+//        subwayGraph.BellmanFord(subwayGraph, 0);
+        subwayGraph.SpecificBellmanFord(subwayGraph, 7, 55);
 
     }
 
@@ -157,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         while((line = br.readLine()) != null){
             String[] arr = line.split(",");
             transferStations[lineNum] = arr[0];
-            System.out.println(lineNum + " " + transferStations[lineNum]);
+//            System.out.println(lineNum + " " + transferStations[lineNum]);
             lineNum++;
         }
     }
@@ -171,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             for(int j=1; j<arr.length; j++){
                 subwayGraph.edge[edgeNum].src = GetVertexNum(arr[0]);
                 subwayGraph.edge[edgeNum].dest = GetVertexNum(arr[j]);
-                subwayGraph.edge[edgeNum].weight = 1;
+                subwayGraph.edge[edgeNum].weight = 1; //웨이트 사이 역으로 반영할까 말까
                 edgeNum+=1;
             }
         }
