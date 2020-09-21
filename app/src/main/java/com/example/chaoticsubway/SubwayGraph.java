@@ -1,12 +1,16 @@
 package com.example.chaoticsubway;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Pair;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 //orderedlist에서 역을 받아서 역 리스트에 넣는데, 기존 역과 중복된 게 있다면 기존 역에다가 추가.
@@ -55,30 +59,54 @@ public class SubwayGraph {
         printArr(dist, V);
     }
 
-    public String[] passedStations = new String[10];
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     void SpecificBellmanFord(SubwayGraph graph, int src, int des){
         int V = graph.V, E = graph.E;
-        int dist[] = new int[V];
+        int dist[] = new int[V]; //Distance from source station to particular station
+        String[] routeStations = new String[V];
 
-        for(int i=0; i<V; ++i)
-            dist[i] = Integer.MAX_VALUE;
-        dist[src] = 0;
+//        ArrayList<String>[] routeStations = new ArrayList[V]; //Possible routes from source station to particular station
+//        for (int i = 0; i < V; i++) routeStations[i] = new ArrayList<String>(); //Initialize
+
+        for(int i=0; i<V; ++i) dist[i] = Integer.MAX_VALUE; //Initialize all distance to max value
+        dist[src] = 0; //Except source station itself
+        routeStations[src] = Integer.toString(src);
+//        routeStations[src].add(Integer.toString(src));
 
         for(int i=1; i<V; ++i){
             for(int j=0; j<E; ++j){
                 int u = graph.edge[j].src;
                 int v = graph.edge[j].dest;
                 int weight = graph.edge[j].weight;
-                if(dist[u] != Integer.MAX_VALUE && dist[u] + weight < dist[v]){
+                if(dist[u] != Integer.MAX_VALUE && dist[u] + weight < dist[v]){ // =< ?
                     dist[v] = dist[u] + weight;
+                    routeStations[v] = routeStations[u].toString() + " " + v;
+//                    routeStations[v].add(routeStations[u].toString() + " " + v);
+
+//                    boolean foundMatch = false;
+//                    for(int a=0; a < routeStations[v].size(); a++){
+//                        String[] splited = routeStations[v].get(a).split("\\s+");
+//                        if(splited[splited.length-1].equals(u)){
+//                            routeStations[v].set(a, routeStations[v].get(a) + " " + v);
+//                            foundMatch = true;
+//                        }
+//                    }
+
+//                    if(foundMatch == false){
+//                        routeStations[v].add(routeStations[u].toString() + " " + v);
+//                    }
+
+//                    System.out.println(routeStations[v]);
+
                     if(v==des){
-                        System.out.println(MainActivity.transferStations[u]);
+//                        System.out.println(String.join("-", routeStations[v]));
+                        System.out.println(subwayNumToName(routeStations[v]));
                         System.out.println(MainActivity.transferStations[src]+"에서 " +MainActivity.transferStations[des] + "까지 현재\t" + dist[des]);
                     }
                 }
             }
         }
+
         specificPrintArr(dist, src, des);
     }
 
@@ -89,7 +117,19 @@ public class SubwayGraph {
     }
 
     void specificPrintArr(int dist[], int src, int des){
-        System.out.println(MainActivity.transferStations[src]+"에서 " +MainActivity.transferStations[des] + "까지\t" + dist[des]);
+        System.out.println(MainActivity.transferStations[src]+"에서 " + MainActivity.transferStations[des] + "까지\t" + dist[des]);
     }
+
+    public String subwayNumToName(String numString){
+        String[] splited = numString.split("\\s+");
+        StringBuffer sb = new StringBuffer();
+        for(int i=0; i<splited.length; i++){
+            sb.append(MainActivity.transferStations[Integer.parseInt(splited[i])]);
+            sb.append(" ");
+        }
+        return sb.toString();
+    }
+
+
 
 }

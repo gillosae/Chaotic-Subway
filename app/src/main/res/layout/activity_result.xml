@@ -19,7 +19,7 @@
             android:id="@+id/congestionSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="혼잡도 "
+            android:text="추천 "
             android:textAppearance="?android:textAppearanceSmallPopupMenu"/>
 <!--        <androidx.appcompat.widget.SearchView-->
 <!--            android:id="@+id/search_view"-->
@@ -57,24 +57,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="36분"
+            android:padding="10sp"
+            android:text="53분"
             android:textSize="40sp"
-            android:textStyle="bold"
-            android:padding="10sp"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/transfer_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="환승 1회"
+            android:text="환승 2회"
             android:textSize="15sp"
             android:padding="10sp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="카드 1350원"
+            android:text="카드 1450원"
             android:textSize="15sp"
             android:padding="10sp"/>
         <Button
@@ -92,10 +94,10 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_pathway"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"/>
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/fab"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom|end"/>-->
 
 </LinearLayout>

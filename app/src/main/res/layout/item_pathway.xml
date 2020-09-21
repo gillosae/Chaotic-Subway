@@ -95,7 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center"
-        android:text="도보환승 (3분)"
+        android:text="도보(2분)"
         android:textSize="15sp"
         android:visibility="visible"/>
 

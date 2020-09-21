@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:paddingHorizontal="5dp"
     android:paddingVertical="10dp">
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="0"/>
+<!--    <Button-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:text="0"/>-->
 </LinearLayout>

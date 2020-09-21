@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Path;
-import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
@@ -28,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -36,7 +33,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -127,10 +123,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Route Search
         String transferStationsPath = "transferstations.csv";
+        String transferStationsLinePath = "transferstations_line.csv";
 
         try {
             SetTransferStations(transferStations, transferStationsPath);
-            SetAdjacentStations(transferStations, transferStationsPath);
+            SetGraphEdges(transferStations, transferStationsPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -156,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    void SetAdjacentStations(String[] transferStations, String transferStationsPath) throws IOException {
+    void SetGraphEdges(String[] transferStations, String transferStationsPath) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(transferStationsPath)));
         String line;
         int edgeNum = 0;
@@ -165,19 +162,31 @@ public class MainActivity extends AppCompatActivity {
             for(int j=1; j<arr.length; j++){
                 subwayGraph.edge[edgeNum].src = GetVertexNum(arr[0]);
                 subwayGraph.edge[edgeNum].dest = GetVertexNum(arr[j]);
-                subwayGraph.edge[edgeNum].weight = 1; //웨이트 사이 역으로 반영할까 말까
-                edgeNum+=1;
+                subwayGraph.edge[edgeNum].weight = 1; //웨이트 역 사이 길이로 반영할지?
+                edgeNum++;
             }
         }
     }
 
     int GetVertexNum(String string){
         for(int i=0; i<transferStations.length; i++){
-            if(transferStations[i].equals(string))
-                return i;
+            if(transferStations[i].equals(string)) return i;
         }
         return 0;
     }
+
+    public String getTransferRoute(String numString, String path) throws IOException {
+        String[] splited = numString.split("\\s+");
+        StringBuffer sb = new StringBuffer();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(path)));
+
+        for(int i=0; i<splited.length; i++){
+//            Integer.parseInt(splited[i])
+        }
+        return "";
+    }
+
 
     static List<String> STATIONS = new ArrayList<>();
     List <TrainInfo> result;

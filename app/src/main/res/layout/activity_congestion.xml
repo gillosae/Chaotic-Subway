@@ -14,7 +14,7 @@
         <androidx.appcompat.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="혼잡도 "
+            android:text="추천 "
             android:textAppearance="?android:textAppearanceSmallPopupMenu"/>
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
@@ -31,7 +31,7 @@
         android:padding="15dp">
         <ImageView
             android:id="@+id/lineCircle"
-            android:src="@drawable/line7"
+            android:src="@drawable/line3"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"/>
@@ -57,7 +57,7 @@
                 android:id="@+id/curStation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="장승배기"
+                android:text="옥수"
                 android:textSize="30sp"
                 android:textStyle="bold"/>
             <ImageView
@@ -70,16 +70,16 @@
                 android:id="@+id/arrStation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="대림"
+                android:text="종로5가"
                 android:textSize="30sp"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/tilArrival"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:text="6분 후 대림역 도착"/>
+<!--        <TextView-->
+<!--            android:id="@+id/tilArrival"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:textSize="20sp"-->
+<!--            android:text="6분 후 대림역 도착"/>-->
     </LinearLayout>
 
     <LinearLayout
@@ -91,7 +91,7 @@
             android:id="@+id/destination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="부평구청행(6890)"
+            android:text="대화행(339)"
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"/>
@@ -170,22 +170,22 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_cabin"
-                    android:tint="@color/colorEasy"/>
+                    android:tint="@color/colorHard"/>
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_cabin"
+                    android:tint="@color/colorHardcore"/>
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_cabin"
+                    android:tint="@color/colorHard"/>
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_cabin"
                     android:tint="@color/colorMiddle"/>
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_cabin"
-                    android:tint="@color/colorEasy"/>
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_cabin"
-                    android:tint="@color/colorEasy"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

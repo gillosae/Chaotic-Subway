@@ -39,21 +39,22 @@ public class ResultActivity extends AppCompatActivity {
 
         //Data
         ArrayList<Pathway> data = new ArrayList<>();
-        data.add(new Pathway("상도", "대림", tempTime));
-        data.add(new Pathway("대림", "신촌",  tempTime));
+        data.add(new Pathway("상도", "고속터미널", LocalDateTime.parse("2018-09-18T16:26:00")));
+        data.add(new Pathway("고속터미널", "종로3가", LocalDateTime.parse("2018-09-18T16:42:00")));
+        data.add(new Pathway("종로3가", "종로5가",  LocalDateTime.parse("2018-09-18T17:03:00")));
 
         //Adapter
         PathwayAdapter adapter = new PathwayAdapter(data);
 
         //Link View and Adapter
-        ListView listView = (ListView)findViewById(R.id.list_view);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ResultActivity.this, position + " 번째 아이템 선택", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        ListView listView = (ListView)findViewById(R.id.list_view);
+//        listView.setAdapter(adapter);
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(ResultActivity.this, position + " 번째 구간", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         //Choose current route Button
         Button chooseRouteButton = (Button)findViewById(R.id.realTime);
@@ -84,17 +85,17 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                if (isTouched) {
-                    isTouched = false;
-                    if (isChecked) {
-                        Toast.makeText(ResultActivity.this, "혼잡도 고려", Toast.LENGTH_SHORT).show();
-                        offerContainer.setVisibility(View.VISIBLE);
-                    }
-                    else {
-                        Toast.makeText(ResultActivity.this, "혼잡도 고려 취소", Toast.LENGTH_SHORT).show();
-                        offerContainer.setVisibility(View.GONE);
-                    }
+            if (isTouched) {
+                isTouched = false;
+                if (isChecked) {
+                    Toast.makeText(ResultActivity.this, "혼잡도 고려", Toast.LENGTH_SHORT).show();
+                    offerContainer.setVisibility(View.VISIBLE);
                 }
+                else {
+                    Toast.makeText(ResultActivity.this, "혼잡도 고려 취소", Toast.LENGTH_SHORT).show();
+                    offerContainer.setVisibility(View.GONE);
+                }
+            }
             }
         });
 
