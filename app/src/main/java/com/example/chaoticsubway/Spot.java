@@ -7,11 +7,11 @@ import androidx.annotation.RequiresApi;
 
 import java.time.LocalDateTime;
 
-public class Node {
+public class Spot {
     private String station;
     private LocalDateTime time;
 
-    public Node(String station, LocalDateTime localTime) {
+    public Spot(String station, LocalDateTime localTime) {
         this.station = station;
         this.time = localTime;
     }

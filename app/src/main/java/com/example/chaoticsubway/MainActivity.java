@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -44,17 +46,16 @@ public class MainActivity extends AppCompatActivity {
     private int startHour; //LocalTime.of(startHour, startMinute)
     private int startMinute;
 
-    private static int vertex = 58;
-    private int edge = 206;
-    public SubwayGraph subwayGraph = new SubwayGraph(vertex, edge);
-    public static String[] transferStations = new String[vertex];
-
+    public SubwayGraph subwayGraph;
+    public static Context context;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = getApplicationContext();
+        subwayGraph= new SubwayGraph(StationManager.vertex, StationManager.edge);
 
         //Toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.start_toolbar);
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Both start and end stations should be node station
+
 //                startStation = allStations.get(depView.getText().toString());
 //                endStation = allStations.get(desView.getText().toString());
 //                beginSearch();
@@ -121,76 +122,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        StationManager.getInstance().init(getApplicationContext());
+//        assert(getApplicationContext() == StationManager.get());
+        StationManager sm = new StationManager(getApplicationContext());
+
         //Route Search
         String transferStationsPath = "transferstations.csv";
         String transferStationsLinePath = "transferstations_line.csv";
 
+        subwayGraph.SpecificBellmanFord(sm.subwayGraph, 7, 55);
         try {
-            SetTransferStations(transferStations, transferStationsPath);
-            SetGraphEdges(transferStations, transferStationsPath);
+//            subwayGraph.getSimpleRoute(subwayGraph.getNodeRoute(subwayGraph.routeStations[55]));
+            ArrayList<Station> route = subwayGraph.getSimpleRoute(subwayGraph.getNodeRoute(subwayGraph.routeStations[55]));
+            TimeTable timeTable = new TimeTable(route, LocalDateTime.now());
+            timeTable.TimeTableSearch(LocalDateTime.now());
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        for (int i = 0; i < edge; i++) {
-//            subwayGraph.edge[i].src = 0;
-//            subwayGraph.edge[i].dest = 0;
-//            subwayGraph.edge[i].weight = 1;
-//        }
-//        subwayGraph.BellmanFord(subwayGraph, 0);
-        subwayGraph.SpecificBellmanFord(subwayGraph, 7, 55);
+
 
     }
 
-    void SetTransferStations(String[] transferStations, String transferStationsPath) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(transferStationsPath)));
-        String line;
-        int lineNum = 0;
-        while((line = br.readLine()) != null){
-            String[] arr = line.split(",");
-            transferStations[lineNum] = arr[0];
-//            System.out.println(lineNum + " " + transferStations[lineNum]);
-            lineNum++;
-        }
-    }
 
-    void SetGraphEdges(String[] transferStations, String transferStationsPath) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(transferStationsPath)));
-        String line;
-        int edgeNum = 0;
-        while((line = br.readLine()) != null){
-            String[] arr = line.split(",");
-            for(int j=1; j<arr.length; j++){
-                subwayGraph.edge[edgeNum].src = GetVertexNum(arr[0]);
-                subwayGraph.edge[edgeNum].dest = GetVertexNum(arr[j]);
-                subwayGraph.edge[edgeNum].weight = 1; //웨이트 역 사이 길이로 반영할지?
-                edgeNum++;
-            }
-        }
-    }
 
-    int GetVertexNum(String string){
-        for(int i=0; i<transferStations.length; i++){
-            if(transferStations[i].equals(string)) return i;
-        }
-        return 0;
-    }
-
-    public String getTransferRoute(String numString, String path) throws IOException {
-        String[] splited = numString.split("\\s+");
-        StringBuffer sb = new StringBuffer();
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open(path)));
-
-        for(int i=0; i<splited.length; i++){
-//            Integer.parseInt(splited[i])
-        }
-        return "";
-    }
 
 
     static List<String> STATIONS = new ArrayList<>();
     List <TrainInfo> result;
-    //AssetManager assets = getApplicationContext().getAssets();
     static String station_name;
     static String day_num;//요일 코드
     static String time;//현재 시간
@@ -259,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                         nodeStations.put(arr[1], allStations.get(arr[1]));
                     }
                 }else{
-                    allStations.put(arr[1], new Station(arr[1], Integer.parseInt(arr[0]), Integer.parseInt(arr[2])));
+                    allStations.put(arr[1], new Station(arr[1], Arrays.asList(Integer.parseInt(arr[0])))/*, Integer.parseInt(arr[2])*/);
                     for(int j=3; j<arr.length; j++){
                         allStations.get(arr[1]).setAdjacentStation(new Pair(arr[j], Integer.parseInt(arr[0])));
                     }
@@ -271,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
                     if(same == 0){
                         STATIONS.add(arr[1]);
                     }
+
                 }
             }
         }

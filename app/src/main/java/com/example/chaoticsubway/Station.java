@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Station {
     private String stationName; //이름
-    private int id; //아이디(역번호)
+//    private int id; //아이디(역번호)
     private List<Integer> line = new ArrayList<Integer>(); //호선
 
     public int time = Integer.MAX_VALUE;
@@ -16,12 +16,11 @@ public class Station {
     public List<Pair<String, Integer>> adjacentStation = new ArrayList<Pair<String, Integer>>(); //인접역, 호선
 
 
-    public Station(String stationName, int line, int id) {
+    public Station(String stationName, List<Integer> line) {
         System.out.println(line);
         this.stationName = stationName;
-        this.line.add(line);
-        this.id = id;
-
+        this.line.addAll(line);
+//        this.id = id;
     }
 
     public String getStationName() {
@@ -32,13 +31,13 @@ public class Station {
         this.stationName = stationName;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public List<Integer> getLine() {
         return line;
@@ -65,9 +64,9 @@ public class Station {
     public String toString(){
         final StringBuffer sb = new StringBuffer("Station{");
         sb.append("name='").append(stationName).append('\'');
-        sb.append(", id='").append(id).append('\'');
+//        sb.append(", id='").append(id).append('\'');
         sb.append(", line='").append(line).append('\'');
-        sb.append(", isNode='").append(isNode()).append('\'');
+//        sb.append(", isNode='").append(isNode()).append('\'');
         sb.append('}');
         return sb.toString();
     }

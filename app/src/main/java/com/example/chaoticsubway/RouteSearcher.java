@@ -2,18 +2,14 @@ package com.example.chaoticsubway;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Pair;
 
 import androidx.annotation.RequiresApi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,33 +25,31 @@ public class RouteSearcher {
     RouteSearcher(Context context, LocalDateTime dateTime) throws IOException {
         this.context = context;
         this.dateTime = dateTime;
-        initializeStationList();
+//        initializeStationList();
     }
 
-    private void initializeStationList() throws IOException { //Get Station from csv
-        for(int i = 1; i < 10; i++){
-            BufferedReader br = new BufferedReader(new InputStreamReader(context.getAssets().open(stationInfoPath)));
-            String line;
-            while((line = br.readLine()) != null){
-                String[] arr = line.split(",");
-                if(stations.containsKey(arr[1])){
-                    if(!stations.get(arr[1]).getLine().contains(Integer.parseInt(arr[0])))
-                        stations.get(arr[1]).setLine(Integer.parseInt(arr[0]));
-                    for(int j=3; j<arr.length; j++){
-                        stations.get(arr[1]).setAdjacentStation(new Pair(arr[j], Integer.parseInt(arr[0])));
-                    }
-                }else{
-                    stations.put(arr[1], new Station(arr[1], Integer.parseInt(arr[0]), Integer.parseInt(arr[2])));
-                    for(int j=3; j<arr.length; j++){
-                        stations.get(arr[1]).setAdjacentStation(new Pair(arr[j], Integer.parseInt(arr[0])));
-                    }
-                }
-            }
-        }
-    }
-
-    //결과 루트를 저장하는 리스트가 있어야한다. 시간과 역을. 열차번호와 무슨행인지 열차정보도.
-    public ArrayList<ArrayList<Node>> successPath = new ArrayList<ArrayList<Node>>();
+//    private void initializeStationList() throws IOException { //Get Station from csv
+//        for(int i = 1; i < 10; i++){
+//            BufferedReader br = new BufferedReader(new InputStreamReader(context.getAssets().open(stationInfoPath)));
+//            String line;
+//            while((line = br.readLine()) != null){
+//                String[] arr = line.split(",");
+//                if(stations.containsKey(arr[1])){
+//                    if(!stations.get(arr[1]).getLine().contains(Integer.parseInt(arr[0])))
+//                        stations.get(arr[1]).setLine(Integer.parseInt(arr[0]));
+//                    for(int j=3; j<arr.length; j++){
+//                        stations.get(arr[1]).setAdjacentStation(new Pair(arr[j], Integer.parseInt(arr[0])));
+//                    }
+//                }else{
+//                    stations.put(arr[1], new Station(arr[1], Integer.parseInt(arr[0]), Integer.parseInt(arr[2])));
+//                    for(int j=3; j<arr.length; j++){
+//                        stations.get(arr[1]).setAdjacentStation(new Pair(arr[j], Integer.parseInt(arr[0])));
+//                    }
+//                }
+//            }
+//        }
+//    }
+    public ArrayList<ArrayList<Spot>> successPath = new ArrayList<ArrayList<Spot>>();
 
 //    private ArrayList<Station> passedStations = new ArrayList<Station>();
 
@@ -80,7 +74,7 @@ public class RouteSearcher {
         return null;
     }
 
-    public void RouteSearch(String startStation, String endStation, LocalDateTime startTime, ArrayList<Node> passedStations) throws IOException {
+    public void RouteSearch(String startStation, String endStation, LocalDateTime startTime, ArrayList<Spot> passedStations) throws IOException {
         System.out.println("/// Route Search : "+ startStation + " -> " + endStation + " " + startTime.toLocalTime());
         String currentStation = startStation;
 
@@ -118,7 +112,7 @@ public class RouteSearcher {
                                 break; //이 경로는 아예 의미가 없으므로 반복문 탈출
 
                             currentStation = firstArr[k]; //현재역을 보고있는 컬럼으로 지정 후
-                            passedStations.add(new Node(currentStation, strToTime(arr[k]))); //passedStation에 저장.
+                            passedStations.add(new Spot(currentStation, strToTime(arr[k]))); //passedStation에 저장.
                             System.out.println(currentStation);
 
                             if (currentStation.equals(endStation)) { //이때 currentStation과 endStation이 같으면 길찾기 성공
@@ -131,9 +125,9 @@ public class RouteSearcher {
                             if (stations.get(currentStation).getLine().size() > 1) { //현재 역이 환승역이라면
                                 System.out.println(passedStations);
                                 System.out.println(stations.get(currentStation));
-                                ArrayList<Node> copiedStations = new ArrayList<Node>();
+                                ArrayList<Spot> copiedStations = new ArrayList<Spot>();
                                 for(int f=0; f<passedStations.size(); f++){
-                                    copiedStations.add(new Node(passedStations.get(f).getStation(), passedStations.get(f).getTime()));
+                                    copiedStations.add(new Spot(passedStations.get(f).getStation(), passedStations.get(f).getTime()));
                                 }
                                 RouteSearch(currentStation, endStation, strToTime(arr[k])/*.plusMinutes(transferMinute)*/, copiedStations); //환승기회 제공
                             }

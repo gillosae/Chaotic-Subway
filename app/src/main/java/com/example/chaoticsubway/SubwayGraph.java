@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -32,12 +33,17 @@ public class SubwayGraph {
     int V, E;
     Edge edge[];
 
+    public String[] routeStations;
+
     SubwayGraph(int v, int e){
         V = v;
         E = e;
         edge = new Edge[e];
         for (int i=0; i<e; ++i) edge[i] = new Edge();
+        routeStations = new String[V];
     }
+
+
 
     void BellmanFord(SubwayGraph graph, int src){
         int V = graph.V, E = graph.E;
@@ -63,7 +69,6 @@ public class SubwayGraph {
     void SpecificBellmanFord(SubwayGraph graph, int src, int des){
         int V = graph.V, E = graph.E;
         int dist[] = new int[V]; //Distance from source station to particular station
-        String[] routeStations = new String[V];
 
 //        ArrayList<String>[] routeStations = new ArrayList[V]; //Possible routes from source station to particular station
 //        for (int i = 0; i < V; i++) routeStations[i] = new ArrayList<String>(); //Initialize
@@ -81,27 +86,11 @@ public class SubwayGraph {
                 if(dist[u] != Integer.MAX_VALUE && dist[u] + weight < dist[v]){ // =< ?
                     dist[v] = dist[u] + weight;
                     routeStations[v] = routeStations[u].toString() + " " + v;
-//                    routeStations[v].add(routeStations[u].toString() + " " + v);
-
-//                    boolean foundMatch = false;
-//                    for(int a=0; a < routeStations[v].size(); a++){
-//                        String[] splited = routeStations[v].get(a).split("\\s+");
-//                        if(splited[splited.length-1].equals(u)){
-//                            routeStations[v].set(a, routeStations[v].get(a) + " " + v);
-//                            foundMatch = true;
-//                        }
-//                    }
-
-//                    if(foundMatch == false){
-//                        routeStations[v].add(routeStations[u].toString() + " " + v);
-//                    }
-
-//                    System.out.println(routeStations[v]);
-
                     if(v==des){
 //                        System.out.println(String.join("-", routeStations[v]));
+                        System.out.println(routeStations[v]);
                         System.out.println(subwayNumToName(routeStations[v]));
-                        System.out.println(MainActivity.transferStations[src]+"에서 " +MainActivity.transferStations[des] + "까지 현재\t" + dist[des]);
+                        System.out.println(StationManager.nodeStations[src] + "에서 " + StationManager.nodeStations[des] + "까지 현재 \t" + dist[des]);
                     }
                 }
             }
@@ -117,19 +106,61 @@ public class SubwayGraph {
     }
 
     void specificPrintArr(int dist[], int src, int des){
-        System.out.println(MainActivity.transferStations[src]+"에서 " + MainActivity.transferStations[des] + "까지\t" + dist[des]);
+        System.out.println(StationManager.nodeStations[src]+"에서 " + StationManager.nodeStations[des] + "까지\t" + dist[des]);
     }
 
     public String subwayNumToName(String numString){
         String[] splited = numString.split("\\s+");
         StringBuffer sb = new StringBuffer();
         for(int i=0; i<splited.length; i++){
-            sb.append(MainActivity.transferStations[Integer.parseInt(splited[i])]);
+            sb.append(StationManager.nodeStations[Integer.parseInt(splited[i])]);
             sb.append(" ");
         }
         return sb.toString();
     }
 
+    //All Node Stations passing through containing all line numbers
+    public ArrayList<Station> getNodeRoute(String numString) throws IOException {
+        ArrayList<Station> nodeRoute = new ArrayList<Station>();
 
+        //Split String of Node's CSV row num.
+        String[] splited = numString.split("\\s+");
+
+        for(int i=0; i<splited.length; i++){
+            nodeRoute.add(StationManager.getStationFromNum(Integer.parseInt(splited[i])));
+            System.out.println(nodeRoute.get(i));
+        }
+        return nodeRoute;
+    }
+
+    //All Node stations with specific line numbers passing through
+    public ArrayList<Station> getCleanRoute(ArrayList<Station> nodeRoute){
+        ArrayList<Station> cleanRoute = new ArrayList<Station>();
+        System.out.println("//////////////////////////////////");
+        for(int i=0; i<nodeRoute.size()-1; i++){
+            nodeRoute.get(i).getLine().retainAll(nodeRoute.get(i+1).getLine());
+            cleanRoute.add(nodeRoute.get(i));
+            System.out.println(nodeRoute.get(i));
+        }
+        nodeRoute.get(nodeRoute.size()-1).getLine().retainAll(nodeRoute.get(nodeRoute.size()-2).getLine());
+        cleanRoute.add(nodeRoute.get(nodeRoute.size()-1));
+        System.out.println(nodeRoute.get(nodeRoute.size()-1));
+
+        return cleanRoute;
+    }
+
+    //All 'Transferring' stations passing through
+    public ArrayList<Station> getSimpleRoute(ArrayList<Station> nodeRoute){
+        ArrayList<Station> cleanRoute = getCleanRoute(nodeRoute);
+        ArrayList<Station> simpleRoute = new ArrayList<Station>();
+        simpleRoute.add(cleanRoute.get(0));
+        for(int i=1; i<cleanRoute.size()-2; i++){
+            if(cleanRoute.get(i).getLine().get(0) != cleanRoute.get(i-1).getLine().get(0))
+                simpleRoute.add(cleanRoute.get(i));
+        }
+        simpleRoute.add(cleanRoute.get(cleanRoute.size()-1));
+        System.out.println(simpleRoute);
+        return simpleRoute;
+    }
 
 }
