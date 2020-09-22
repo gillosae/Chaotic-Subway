@@ -51,7 +51,8 @@ public class TimeTable {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void TimeTableSearch(LocalDateTime startTime) throws IOException {
         System.out.println("///TimeTable Search : "+ route.get(0).getStationName() + " -> " + route.get(route.size()-1).getStationName() + " " + startTime.toLocalTime());
-        for(int i=0; i<route.size(); i++){
+        for(int i=0; i<route.size()-1; i++){
+            System.out.println(i+" th ITERATION");
             String stationName = route.get(i).getStationName();
             String nextStationName = route.get(i+1).getStationName();
 
@@ -60,7 +61,7 @@ public class TimeTable {
             int stationColumn = -1;
             int nextStationColumn = -1;
 
-            SearchTable(stationName, stationColumn, nextStationName, nextStationColumn, startTime, lineNum, 1, 0);
+            SearchTable(stationName, stationColumn, nextStationName, nextStationColumn, startTime, lineNum, 2, 0);
         }
     }
 
@@ -68,7 +69,7 @@ public class TimeTable {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void SearchTable(String stationName, int stationColumn, String nextStationName, int nextStationColumn, LocalDateTime startTime, final int lineNum, int sanghasun, int routeIndex) throws IOException {
-        System.out.println("Searching... " + stationName + " " + stationColumn + " " + nextStationName + " " + nextStationColumn + " " +lineNum);
+        System.out.println("Searching... " + stationName + " " + stationColumn + " " + nextStationName + " " + nextStationColumn + " " +lineNum + " " + sanghasun + " " + routeIndex);
         BufferedReader br = new BufferedReader(new InputStreamReader(context.getAssets().open("TrainNo/"+ lineNum + "_" + "1"  +"_" + sanghasun +".csv")));
         String firstLine = br.readLine();
         String[] firstLineArr = firstLine.split(",");
@@ -79,9 +80,10 @@ public class TimeTable {
                 nextStationColumn = j;
             }
         }
+        System.out.println("stationColumn is " + stationColumn + ", nextStationColumn is " + nextStationColumn);
         if(stationColumn > nextStationColumn) { //상선이 아니라면 하선으로 갓
-            System.out.println("Go to Hasun");
-            SearchTable(stationName, stationColumn, nextStationName,  nextStationColumn, startTime, lineNum, (sanghasun == 1) ? 2 : 1, routeIndex);
+            System.out.println("하선으로 검색 " + sanghasun);
+            SearchTable(stationName, -1, nextStationName,  -1, startTime, lineNum, (sanghasun == 1) ? 2 : 1, routeIndex);
             return;
         }
 
@@ -93,20 +95,24 @@ public class TimeTable {
             if(strToTime(arr[stationColumn]).isAfter(startTime)){
                 for(int j=stationColumn; j<nextStationColumn; j++){
 //                    allSpots.add(new Spot(new Station(firstLineArr[stationColumn],  new ArrayList<Integer>() {{ add(lineNum); }} ), strToTime(arr[stationColumn])));
+                    System.out.println("+++++++++++++++++++++++++++++++" + j);
                     allSpots.add(new Spot(firstLineArr[j], strToTime(arr[j])));
                     System.out.println(allSpots.get(allSpots.size()-1));
                 }
-                if(nextStationName != firstLineArr[nextStationColumn]){
-                    if(route.get(route.size()-1).getStationName() == nextStationName){
+                if(nextStationName.equals(firstLineArr[nextStationColumn])){
+                    if(route.get(route.size()-1).getStationName().equals(nextStationName)){
+                        allSpots.add(new Spot(firstLineArr[nextStationColumn], strToTime(arr[nextStationColumn])));
                         System.out.println(allSpots);
                         return;
                     }
-                    for (int k=0; k<route.get(routeIndex+1).getLine().size(); k++){
-                        if(route.get(routeIndex+1).getLine().get(k) == lineNum){
-                            route.get(routeIndex+1).getLine().remove(k);
-                        }
-                    }
-                    SearchTable(nextStationName, 0, route.get(routeIndex+1).getStationName(), 0, strToTime(arr[nextStationColumn]).plusMinutes(2), route.get(routeIndex+1).getLine().get(0), 1, routeIndex+1);
+//                    for (int k=0; k<route.get(routeIndex+1).getLine().size(); k++){
+//                        if(route.get(routeIndex+1).getLine().get(k) == lineNum){
+//                            route.get(routeIndex+1).getLine().remove(k);
+//                        }
+//                    }
+//                    SearchTable(nextStationName, 0, route.get(routeIndex+2).getStationName(), 0, strToTime(arr[nextStationColumn]).plusMinutes(2),
+//                            route.get(routeIndex+1).getLine().get(0), 2, routeIndex+1);
+                    return;
                 }
                 return;
             }

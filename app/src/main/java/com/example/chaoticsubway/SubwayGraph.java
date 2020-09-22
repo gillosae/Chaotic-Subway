@@ -126,6 +126,7 @@ public class SubwayGraph {
         //Split String of Node's CSV row num.
         String[] splited = numString.split("\\s+");
 
+        System.out.println("+++++++++++++++GetNodeRoute");
         for(int i=0; i<splited.length; i++){
             nodeRoute.add(StationManager.getStationFromNum(Integer.parseInt(splited[i])));
             System.out.println(nodeRoute.get(i));
@@ -136,7 +137,7 @@ public class SubwayGraph {
     //All Node stations with specific line numbers passing through
     public ArrayList<Station> getCleanRoute(ArrayList<Station> nodeRoute){
         ArrayList<Station> cleanRoute = new ArrayList<Station>();
-        System.out.println("//////////////////////////////////");
+        System.out.println("+++++++++++++++GetCleanRoute");
         for(int i=0; i<nodeRoute.size()-1; i++){
             nodeRoute.get(i).getLine().retainAll(nodeRoute.get(i+1).getLine());
             cleanRoute.add(nodeRoute.get(i));
@@ -159,6 +160,7 @@ public class SubwayGraph {
                 simpleRoute.add(cleanRoute.get(i));
         }
         simpleRoute.add(cleanRoute.get(cleanRoute.size()-1));
+        System.out.println("+++++++++++++++GetSimpleRoute");
         System.out.println(simpleRoute);
         return simpleRoute;
     }

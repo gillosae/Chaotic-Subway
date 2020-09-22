@@ -130,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
         String transferStationsPath = "transferstations.csv";
         String transferStationsLinePath = "transferstations_line.csv";
 
-        subwayGraph.SpecificBellmanFord(sm.subwayGraph, 7, 55);
+        subwayGraph.SpecificBellmanFord(sm.subwayGraph, 7, 21);
         try {
 //            subwayGraph.getSimpleRoute(subwayGraph.getNodeRoute(subwayGraph.routeStations[55]));
-            ArrayList<Station> route = subwayGraph.getSimpleRoute(subwayGraph.getNodeRoute(subwayGraph.routeStations[55]));
+            ArrayList<Station> route = subwayGraph.getSimpleRoute(subwayGraph.getNodeRoute(subwayGraph.routeStations[21]));
             TimeTable timeTable = new TimeTable(route, LocalDateTime.now());
             timeTable.TimeTableSearch(LocalDateTime.now());
         } catch (IOException e) {
